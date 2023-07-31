@@ -16,3 +16,11 @@
 1. `git clone git@github.com:stawada/common_tasks.git`
 2. `cd common_tasks`
 3. 以上
+
+## gitブランチ操作方法
+* `git branch`
+    * 自分が操作できるブランチ名が見える
+* `git branch [ブランチ名]`
+    * [ブランチ名]で指定した名称でブランチが作成できる
+* `git checkout [ブランチ名]`
+    * 今いるブランチから指定したブランチ名へ移動する
