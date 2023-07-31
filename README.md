@@ -11,3 +11,8 @@
 * commitコメントを記載する
     + コミットコメントは日本語でOK
 * pushするときは、不要なファイルを含めない
+
+## gitの初期環境構築
+1. `git clone git@github.com:stawada/common_tasks.git`
+2. `cd common_tasks`
+3. 以上
