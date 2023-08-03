@@ -4,8 +4,14 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"log"
 
 	_"github.com/lib/pq"
+)
+
+var (
+	book_number *int
+	book_name   *string
 )
 
 type Sale struct {
@@ -37,17 +43,34 @@ func main(){
 	    fmt.Println("Finished dropping table (if existed)")
 
     // Create table.
-    _, err = db.Exec("CREATE TABLE inventory (id serial PRIMARY KEY, name VARCHAR(50), quantity INTEGER);")  //表の作成
+/*   _, err = db.Exec("CREATE TABLE inventory (id serial PRIMARY KEY, name VARCHAR(50), quantity INTEGER);")  //表の作成
     checkError(err)
     fmt.Println("Finished creating table")
-
+*/
     // Insert some data into table.
-    sql_statement := "INSERT INTO inventory (name, quantity) VALUES ($1, $2);"
-    _, err = db.Exec(sql_statement, "banana", 150)
-    checkError(err)
-    _, err = db.Exec(sql_statement, "orange", 154)
-    checkError(err)
-    _, err = db.Exec(sql_statement, "apple", 100)
-    checkError(err)
-    fmt.Println("Inserted 3 rows of data")
+    sql_statement := "SELECT * FROM books;"
+	rows, err := db.Query(sql_statement)
+	if err != nil{
+		log.Println(err)
+	}
+	defer rows.Close()
+
+	var u Sale
+
+	for rows.Next(){
+		err := rows.Scan(&u.Id, &u.OrderId)
+		if err != nil{
+			log.Fatal(err)
+		}
+		fmt.Printf("ID:%s| Name:%s\n", u.Id, u.OrderId)
+	}
+	err = rows.Err()
+	if err != nil{
+		log.Fatal(err)
+	}
+	//checkError(err)
+
+	//fmt.Print(sample)
+	//fmt.Println("update ぐりとぐら => てつとゆめ")
 }
+
