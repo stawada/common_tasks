@@ -1,49 +1,45 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+<script>
+import DropDown from './components/DropDown.vue'
+import AbsButton from './components/AbsButton.vue'
+export default {
+  components: {
+    DropDown,
+    AbsButton
+  }
+};
 </script>
 
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
-
+  <html lang="ja">
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='viewpoint' content="width=device-width" initial-scale=1.0>
+        <title>出欠選択画面</title>
+    </head>
+    <header>
+      <h1>事前欠席登録</h1>
+    </header>
+    <body>
+      <div>
+        <DropDown />
+      </div>
+      <div>
+        <AbsButton />
+      </div>
+    </body>
+</html>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
+<style>
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+};
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
+head {
+  margin: 50px;
+  padding: 100px;
+};
 </style>
