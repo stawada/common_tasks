@@ -55,7 +55,7 @@ func main(){ //DBへの書き込み
 	    //fmt.Println("Finished dropping table (if existed)")
 
 	//readJson() //jsonファイルの読み込み
-    sql_statement := "UPDATE attendance_information SET attendance_flag = %d WHERE student_id='%s' AND lecture_history_id='%s';", //update文の実行(フラグ管理)
+    sql_statement := "UPDATE attendance_information SET attendance_flag = %d WHERE student_id='%s' AND lecture_history_id='%s';" //update文の実行(フラグ管理)
 	_, err = db.Exec(sql_statement)
 	checkError(err)
 
