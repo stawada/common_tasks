@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"database/sql"
 	"net/http"
 
@@ -10,27 +11,48 @@ import (
 
 /* 出欠情報用のjson */
 type Attend struct {
-	student_id   string `json:"student_id"`
-	student_name string `json:"student_name"`
-	hashed_pw    string `json:"hashed_pw"`
+	Student_id   string `json:"student_id"`
+	Student_name string `json:"student_name"`
+	Hashed_pw    string `json:"hashed_pw"`
+}
+
+/* 返り値用のjson */
+type ReturnJson struct {
+	Attend_flag int `json:"attend_flag"`
+	Http_status int `json:"http_status"`
 }
 
 var db *sql.DB
 
 func init() {
-	_, err := sql.Open("postgres", "user=stawada dbname=sample")
+	var err error
+	db, err = sql.Open("postgres", "host=localhost user=stawada dbname=sample sslmode=disable")
 	if err != nil {
 		panic("Not found Database.")
 	}
 }
 
-func GetFromPath(c echo.Context) error {
-	no := c.Param("no")
-	res := Attend{}
+func PostFromJson(c echo.Context) error {
+	post := new(Attend)
 
-	if err := db.QueryRow("select student_id,student_name,hashed_pw from sample", no).Scan(&res.student_id, &res.student_name, &res.hashed_pw); err != nil {
-		panic("Did not read!")
+	err := c.Bind(post)
+	if err != nil {
+		return err
 	}
 
-	return c.JSON(http.StatusCreated, res)
+	res := Attend{}
+	resJson := ReturnJson{}
+
+	select_sentence := fmt.Sprintf("SELECT student_id, hashed_pw FROM student where student_id='%s' and hashed_pw='%s'", post.Student_id, post.Hashed_pw)
+	if err := db.QueryRow(select_sentence).Scan(&res.Student_id, &res.Hashed_pw); err != nil {
+		// 失敗時はフラグ=0
+		resJson.Attend_flag = 0
+		resJson.Http_status = http.StatusCreated
+	} else {
+		// 成功時はフラグ=1
+		resJson.Attend_flag = 1
+		resJson.Http_status = http.StatusCreated
+	}
+
+	return c.JSON(http.StatusCreated, resJson)
 }
