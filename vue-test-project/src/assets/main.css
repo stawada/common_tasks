@@ -1,0 +1,93 @@
+html{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* ヘッダーのスタイル*/
+.Header{
+  background-color: #F3AF2B;
+  height: 150px;
+}
+
+.Footer{
+  background-color: #787878;
+  height: 60px;
+
+}
+
+/* スマホの場合、適用されるCSS */
+@media(min-width: 576px){
+button{
+  
+}
+
+}
+
+.body{
+    background-color: white;
+}
+
+#title{
+    text-align: center;
+    height: 40%;
+    margin: 0 auto;
+
+}
+.text1{
+    font-size: 50px;
+    color: #F3AF2B;
+    margin-block-start: 5%;
+    margin-block-end: 5%;
+}
+.text2{
+    font-size: 30px;
+    margin-block: 0;
+}
+
+#cant_attend{
+    display: none;
+}
+.orange_button{
+  border: 0;
+  border-radius: 20px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.12), 0 3px 6px rgba(0,0,0,0.24);
+  
+  width: 80%;
+  height: 120px;
+  max-width: 400px;
+    
+  color: white;
+  text-align: center;
+  font-size: 60px;
+  
+  /*
+  position:absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 60%;
+  
+  */
+}
+.orange_button:active{
+  box-shadow: 1px 1px 0 rgba(0,0,0,0.12);
+}
+
+.can_click_btn{
+  background-color: #F5C343;
+  
+
+}
+
+.cant_click_btn{
+  background-color: #e2e2e2;
+}
+
+@media (min-width: 1024px) {
+  body {
+    /*
+    display: flex;
+    place-items: center;
+    */
+  }
+}
