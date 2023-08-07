@@ -15,7 +15,7 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://localhost:8080"},
+		AllowOrigins: []string{"http://localhost:3000"},
 		// 今回はPOSTメソッドのみ使用する
 		AllowMethods: []string{
 			// http.MethodGet,
@@ -26,8 +26,9 @@ func main() {
 	}))
 
 	// APIを叩いてデータベースと連携
-	// e.POST("/attendance/attend", PostFromJson) // 出欠情報を送る
-	e.POST("/attendance/login", PostFromJson)  // 本人確認の実施
+	e.POST("/attendance/attend", PostAttend) // 出欠情報を送る
+	e.POST("/attendance/login", PostLogin)   // 本人確認の実施
+	e.POST("/attendance/reload", PostReload)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
