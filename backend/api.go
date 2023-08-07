@@ -107,6 +107,7 @@ func PostReload(c echo.Context) error {
 							INNER JOIN lecture_history ON lecture_catalog.lecture_id=lecture_history.lecture_catalog_id 
 							INNER JOIN attendance_information ON lecture_history.lecture_history_id=attendance_information.lecture_history_id 
 							WHERE lecture_history.lecture_date_and_time-600<=%d AND lecture_history.lecture_date_and_time+600>=%d AND attendance_information.student_id='%s';`, post.Now_time, post.Now_time, post.Student_id)
+	fmt.Println(extract_sentence)
 	if res, err := db.Query(extract_sentence); err != nil {
 		// 失敗時はフラグ=0
 		resJson.Subject_name = ""
