@@ -11,6 +11,19 @@
     </form>
 </template>
 
+<script>
+    function getLoginInfo() {
+        // placeholderの中身を取得
+        let std_id = document.getElementsByName("student_id")[0].value;
+        let hashed_pw = document.getElementsByName("password")[0].value;
+        return [std_id, hashed_pw];
+    }
+    
+    export default{
+        getLoginInfo,
+    }
+</script>
+
 <style>
 
 form {
