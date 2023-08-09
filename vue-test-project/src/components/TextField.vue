@@ -2,39 +2,41 @@
     <form name="login">
         <div class="textfield-container">
             <div class="id">
-                <input type="id" name="student_id" placeholder="学生番号">
+                <input type="text" name="student_id" placeholder="学生番号" v-model="student_id" @change="onEmit">
             </div>
             <div class="password">
-                <input type="password" name="password" placeholder="パスワード">
+                <input type="password" name="password" placeholder="パスワード" v-model="password" @change="onEmit">
             </div>
         </div>
     </form>
 </template>
 
 <script>
-    function getLoginInfo() {
-        // placeholderの中身を取得
-        let std_id = document.getElementsByName("student_id")[0].value;
-        let hashed_pw = document.getElementsByName("password")[0].value;
-        return [std_id, hashed_pw];
+
+export default {
+    data (){
+        return{
+            student_id:'',
+            password:''
+        }
+    },
+
+    methods: {
+        onEmit()
+        {
+        this.$emit("appendVal", this.student_id, this.password)
+        }
     }
-    
-    export default{
-        getLoginInfo,
-    }
+}
 </script>
 
 <style>
 
 form {
-    /*
-    width: 400px;
-    padding: 40px 10px;
-    */
     margin: center;
 }
 
-form input[type ="id"],form input[type ="password"]{
+form input[type ="text"],form input[type ="password"]{
 border: 0;
 background: none;
 display: block;
@@ -46,5 +48,6 @@ outline: none;
 border-radius: 0.25px;
 transition: 0.25s;
 text-align: center;
+background-color: white;
 }
 </style>
