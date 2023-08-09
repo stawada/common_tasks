@@ -28,7 +28,7 @@ type ReceiveLoginInfo struct {
 }
 
 type ReturnLoginInfo struct {
-	Attend_flag int `json:"attend_flag"`
+	Match_flag  int `json:"match_flag"`
 	Http_status int `json:"http_status"`
 }
 
@@ -42,13 +42,14 @@ func PostLogin(c echo.Context) error {
 	checkJson := ReceiveLoginInfo{}
 	resJson := ReturnLoginInfo{}
 	select_sentence := fmt.Sprintf("SELECT student_id, hashed_password FROM student where student_id='%s' and hashed_password='%s';", post.Student_id, post.Hashed_password)
+	fmt.Println(select_sentence)
 	if err := db.QueryRow(select_sentence).Scan(&checkJson.Student_id, &checkJson.Hashed_password); err != nil && &checkJson != nil {
 		// 失敗時はフラグ=0
-		resJson.Attend_flag = 0
+		resJson.Match_flag = 0
 		resJson.Http_status = http.StatusCreated
 	} else {
 		// 成功時はフラグ=1
-		resJson.Attend_flag = 1
+		resJson.Match_flag = 1
 		resJson.Http_status = http.StatusCreated
 	}
 
@@ -113,7 +114,8 @@ func PostReload(c echo.Context) error {
 		resJson.Http_status = http.StatusCreated
 	} else {
 		// 成功時は科目名を出力
-		res.Next(); res.Scan(&resJson.Subject_name)
+		res.Next()
+		res.Scan(&resJson.Subject_name)
 		resJson.Http_status = http.StatusCreated
 	}
 

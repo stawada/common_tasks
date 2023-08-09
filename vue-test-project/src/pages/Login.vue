@@ -23,9 +23,9 @@ export default {
       },
 
       getJson(){
-        axios.post('attendance/login',{
+        axios.post('http://localhost:8080/attendance/login',{
         "student_id": this.student_id,
-        "password": this.password,
+        "hashed_password": this.password,
       })
       .then(
         response => console.log(response),
