@@ -1,0 +1,12 @@
+version: '3'
+services:
+  go:
+    build: .
+    tty: true
+    volumes:
+      - .:/common_tasks
+    ports:
+      - 3000:3000
+
+volumes:
+  db-volumes:
