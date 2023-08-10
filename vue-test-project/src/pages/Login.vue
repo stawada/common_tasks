@@ -4,45 +4,56 @@ import TextField from '../components/TextField.vue'
 import LoginButton from '../components/LoginButton.vue'
 import axios from 'axios'
 
-
 export default {
     components: {
         TextField,
         LoginButton
     },
+
     methods: {
 
       getVal(id, pw){
         this.student_id = id;
         this.password = pw;
       },
+
+
       onclick(){
         alert("click");
-        console.log("親コンポーネント　id: " + this.student_id + "　pw: " + this.password)
-        this.getJson()
+        console.log("親コンポーネント id: " + this.student_id + " pw: " +  this.sha256(this.password));
+        this.postJson()
       },
 
-      getJson(){
+      postJson(){
         axios.post('attendance/login',{
         "student_id": this.student_id,
-        "password": this.password,
+        "hashed_password": this.sha256(this.password),
       })
       .then(
         response => console.log(response),
         this.$router.push('/attendance_check')
       ).catch(error => console.log(error))
       },
-    },
+
+      async sha256(message) {
+        const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);                 // hash the message
+        const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
+        console.log("hashpassword: " + this.password + " = " + hashHex);
+        return hashHex;
+      },
+
 
     data() {
       return {
         student_id: "",
-        password: ""
+        password: "",
       }
     },
-
-
+  }
 };
+
 </script>
 
 <template>
