@@ -2,15 +2,32 @@
     <form name="login">
         <div class="textfield-container">
             <div class="id">
-                <input type="id" name="student_id" placeholder="学生番号">
+                <input type="id" name="student_id" placeholder="学生番号" v-model="student_id" @change="onEmit">
             </div>
             <div class="password">
-                <input type="password" name="password" placeholder="パスワード">
+                <input type="password" name="password" placeholder="パスワード" v-model="password" @change="onEmit">
             </div>
         </div>
     </form>
 </template>
-
+<script>
+export default {
+    data() {
+        return{
+            student_id: '',
+            password: ''
+        }
+    },
+    
+    methods : {
+        onEmit(){
+            //console.log("子コンポーネントのid:"+this.student_id+"　pw:"+this.password);
+            this.$emit("appendVal", this.student_id, this.password);
+        }
+    }
+    
+}
+</script>
 <style>
 
 form {

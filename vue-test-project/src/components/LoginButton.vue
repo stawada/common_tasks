@@ -1,7 +1,7 @@
 <template>
     <div class="button-container">
         <div class="LoginButton">
-            <button @click="handleAbsent">本人確認</button>
+            <button @click='$emit("handleAbsent")'>本人確認</button>
         </div>
     </div>
 </template>
@@ -10,9 +10,10 @@
     export default{
         name:'LoginButton',
         methods: {
-            handleAbsent() {
-                console.log("ボタンを押しました");
-            }
+            
+            // handleAbsent() {
+            //     console.log("ボタンを押しました");
+            // }
         }
     }
 </script>
