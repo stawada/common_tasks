@@ -11,23 +11,23 @@ export default {
     },
 
     methods: {
-
+      
       getVal(id, pw){
         this.student_id = id;
         this.password = pw;
       },
 
 
-      onclick(){
+      async onclick(){
         alert("click");
-        console.log("親コンポーネント id: " + this.student_id + " pw: " +  this.sha256(this.password));
+        //console.log("親コンポーネント id: " + this.student_id + " pw: " +  await this.sha256(this.password));
         this.postJson()
       },
 
-      postJson(){
-        axios.post('attendance/login',{
+      async postJson(){
+        axios.post('http://localhost:8080/attendance/login',{
         "student_id": this.student_id,
-        "hashed_password": this.sha256(this.password),
+        "hashed_password": await this.sha256(this.password),
       })
       .then(
         response => console.log(response),
@@ -40,7 +40,7 @@ export default {
         const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);                 // hash the message
         const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
         const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
-        console.log("hashpassword: " + this.password + " = " + hashHex);
+        //console.log("hashpassword: " + this.password + " = " + hashHex);
         return hashHex;
       },
 
