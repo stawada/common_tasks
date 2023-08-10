@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 
-	// "strings"
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -103,20 +102,34 @@ func PostReload(c echo.Context) error {
 		return err
 	}
 
-	resJson := ReturnReload{}
-	extract_sentence := fmt.Sprintf(`SELECT lecture_catalog.lecture_name from lecture_catalog 
-							INNER JOIN lecture_history ON lecture_catalog.lecture_id=lecture_history.lecture_catalog_id 
-							INNER JOIN attendance_information ON lecture_history.lecture_history_id=attendance_information.lecture_history_id 
-							WHERE lecture_history.lecture_date_and_time-600<=%d AND lecture_history.lecture_date_and_time+600>=%d AND attendance_information.student_id='%s';`, post.Now_time, post.Now_time, post.Student_id)
-	if res, err := db.Query(extract_sentence); err != nil {
-		// 失敗時はフラグ=0
-		resJson.Subject_name = ""
-		resJson.Http_status = http.StatusCreated
+	var where_phase string
+	if post.Now_time == 0 {
+		where_phase = fmt.Sprintf("WHERE attendance_information.student_id='%s';", post.Student_id)
 	} else {
-		// 成功時は科目名を出力
-		res.Next()
-		res.Scan(&resJson.Subject_name)
-		resJson.Http_status = http.StatusCreated
+		where_phase = fmt.Sprintf("WHERE lecture_history.lecture_date_and_time-600<=%d AND lecture_history.lecture_date_and_time+600>=%d AND attendance_information.student_id='%s';", post.Now_time, post.Now_time, post.Student_id)
+	}
+	extract_sentence := `SELECT lecture_catalog.lecture_name FROM lecture_catalog 
+						INNER JOIN lecture_history ON lecture_catalog.lecture_id=lecture_history.lecture_catalog_id 
+						INNER JOIN attendance_information ON lecture_history.lecture_history_id=attendance_information.lecture_history_id `
+	extract_sentence += where_phase
+
+	fmt.Println(extract_sentence)
+	rows, err := db.Query(extract_sentence)
+	defer rows.Close()
+
+	resJson := []ReturnReload{}
+	if err != nil {
+		resJson = append(resJson, ReturnReload{})
+		resJson[0].Subject_name = ""
+		resJson[0].Http_status = http.StatusCreated
+	} else {
+		for rows.Next() {
+			res := ReturnReload{}
+			rows.Scan(&res.Subject_name)
+			res.Http_status = http.StatusCreated
+			fmt.Println(res)
+			resJson = append(resJson, res)
+		}
 	}
 
 	return c.JSON(http.StatusCreated, resJson)

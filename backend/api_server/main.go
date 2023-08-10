@@ -15,7 +15,7 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://localhost:5173"},
+		AllowOrigins: []string{"*"},
 		// 今回はPOSTメソッドのみ使用する
 		AllowMethods: []string{
 			// http.MethodGet,
