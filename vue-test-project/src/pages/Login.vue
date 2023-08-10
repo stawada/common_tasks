@@ -7,63 +7,84 @@
 </script>
 
 <script>
+//各種インポート
 import TextField from '../components/TextField.vue'
 import LoginButton from '../components/LoginButton.vue'
+import axios from 'axios'
 
 export default {
     components: {
         TextField,
         LoginButton
     },
-    data() {
-      return {
-        student_id: "",
-        password: ""
-      }
-    },
-    methods:{
+
+    methods: {
+      
       getVal(id, pw){
         this.student_id = id;
         this.password = pw;
-        // console.log("親コンポーネント　id: " + this.student_id + "　pw: " + this.password)
       },
-      onclick(){
+
+
+      async onclick(){
         alert("click");
-        console.log("id: " +this.student_id + " pw: " + this.password)
-        // localStorage.setItem("student_id", student_id)
+        //console.log("親コンポーネント id: " + this.student_id + " pw: " +  await this.sha256(this.password));
+        this.postJson()
+      },
+
+      async postJson(){
+        axios.post('http://localhost:8080/attendance/login',{
+        "student_id": this.student_id,
+        "hashed_password": await this.sha256(this.password),
+      })
+      .then(
+        response => console.log(response),
+        this.$router.push('/attendance_check')
+      ).catch(error => console.log(error))
+      },
+
+      async sha256(message) {
+        const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);                 // hash the message
+        const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
+        //console.log("hashpassword: " + this.password + " = " + hashHex);
+        return hashHex;
+      },
+
+
+    data() {
+      return {
+        student_id: "",
+        password: "",
       }
-    }
+    },
+  }
 };
+
 </script>
 
 <template>
-  <head>
-    <meta name='viewpoint' content="width=device-width" initial-scale=1.0>
-    <title>本人確認画面</title>
-  </head>
-  <div class="logo-container">
-    <header>
-      <img src="@/assets/logo.png" alt="logo" class="logo">
-    </header>
-  </div>
-  <body>
-    <div class="components">
-      <p>{{counter.count}}</p>
-      <p>{{user.user_id}}</p>
-      <p>{{user.isLoggedIn}}</p>
-      <TextField @appendVal="getVal"/>
-      <LoginButton @handleAbsent="onclick"/> <!-- emit -->
+  <div class="all">
+    <div class="logo-container">
+      <header>
+        <img src="@/assets/logo.png" alt="logo" class="logo">
+      </header>
     </div>
-  </body>
+    <div class='app'>
+      <div class="components">
+        <TextField @appendVal="getVal"/>
+        <LoginButton @handleAbsent="onclick"/>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style>
-/*
-h1 {
-    margin: 100px auto;
-    text-align: center;
-font-size: 50px;
-};
+body{
+  background-color: white;
+  height: 100%;
+}
 
 .logo-container {
   display: flex;
@@ -71,16 +92,25 @@ font-size: 50px;
   justify-content: center;
   align-items: center;
   height: auto;
-};
-*/
-/*
-body {
-    /*display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: center;
-}; */
+}
+
+.app{
+  height: 100%;
+}
+.all {
+  /*display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding:50px 150px 50px 150px;
+  margin: center;
+  align-content: center;
+  width: 300px;
+  */
+  height: 100%;
+  padding: 30% 0px 20% 0px;
+  background-color: #F3AF2B;
+
+}
 
 
 </style>
