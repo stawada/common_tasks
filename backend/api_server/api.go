@@ -82,14 +82,14 @@ func PostAttend(c echo.Context) error {
 						WHERE lecture_history.lecture_date_and_time-600<=%d AND lecture_history.lecture_date_and_time+600>=%d AND attendance_information.student_id='%s';`, post.Now_time, post.Now_time, post.Student_id)
 
 	var subject_name string
+	resJson := ReturnAttendInfo{}
 	if err := db.QueryRow(check_sentence).Scan(&subject_name); err != nil || subject_name == "" {
 		check_flag = 0 // エラー時はフラグを変更
-	}
-
-	resJson := ReturnAttendInfo{}
-	update_sentence := fmt.Sprintf("UPDATE attendance_information SET attendance_flag=%d WHERE student_id='%s' AND lecture_history_id='%s';", post.Attend_flag, post.Student_id, post.Subject_id)
-	if _, err := db.Exec(update_sentence); err != nil {
-		check_flag = 0
+	} else {
+		update_sentence := fmt.Sprintf("UPDATE attendance_information SET attendance_flag=%d WHERE student_id='%s' AND lecture_history_id='%s';", post.Attend_flag, post.Student_id, post.Subject_id)
+		if _, err := db.Exec(update_sentence); err != nil {
+			check_flag = 0
+		}
 	}
 
 	resJson.Check_flag = check_flag
