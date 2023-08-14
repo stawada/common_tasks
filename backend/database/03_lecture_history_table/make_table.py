@@ -26,9 +26,9 @@ def make_table(sql_file_path, table_name, output_path):
     insert_sentence = ""
     for idx, lecture_catalog_id in tqdm(enumerate(catalog_idAry)):
         # 講義履歴id
-        lecture_history_id = str(idx).zfill(10)
+        lecture_history_id = str(idx).zfill(10) # 0-index
         # 講義目録id
-        lecture_catalog_id = str(total-idx-1).zfill(10) # 0-index
+        lecture_catalog_id =str(idx).zfill(10)
         # 講義日時(unix time)
         # サンプルデータでは3時間おきで作る
         lecture_date_and_time = unixtime
