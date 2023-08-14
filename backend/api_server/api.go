@@ -117,7 +117,7 @@ func PostReload(c echo.Context) error {
 	rows, err := db.Query(extract_sentence)
 	defer rows.Close()
 
-	resJson := []ReturnReload{}
+	resJson := make([]ReturnReload, 0)
 	if err != nil {
 		resJson = append(resJson, ReturnReload{})
 		resJson[0].Subject_name = ""
