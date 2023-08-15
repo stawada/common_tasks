@@ -58,11 +58,13 @@ func PostLogin(c echo.Context) error {
 /* 欠席情報用API */
 type ReceiveAttendInfo struct {
 	Attend_flag int    `json:"attend_flag"`
+	Now_time    int    `json:"now_time"`
 	Student_id  string `json:"student_id"`
 	Subject_id  string `json:"subject_id"`
 }
 
 type ReturnAttendInfo struct {
+	Check_flag  int `json:"check_flag"`
 	Http_status int `json:"http_status"`
 }
 
@@ -73,14 +75,25 @@ func PostAttend(c echo.Context) error {
 		return err
 	}
 
+	check_flag := 1 // 1->success, 0->denied
+	check_sentence := fmt.Sprintf(`SELECT lecture_catalog.lecture_name FROM lecture_catalog 
+						INNER JOIN lecture_history ON lecture_catalog.lecture_id=lecture_history.lecture_catalog_id 
+						INNER JOIN attendance_information ON lecture_history.lecture_history_id=attendance_information.lecture_history_id 
+						WHERE lecture_history.lecture_date_and_time-600<=%d AND lecture_history.lecture_date_and_time+600>=%d AND attendance_information.student_id='%s';`, post.Now_time, post.Now_time, post.Student_id)
+
+	var subject_name string
 	resJson := ReturnAttendInfo{}
-	update_sentence := fmt.Sprintf("UPDATE attendance_information SET attendance_flag=%d WHERE student_id='%s' AND lecture_history_id='%s';", post.Attend_flag, post.Student_id, post.Subject_id)
-	if _, err := db.Exec(update_sentence); err != nil {
-		resJson.Http_status = http.StatusCreated
+	if err := db.QueryRow(check_sentence).Scan(&subject_name); err != nil || subject_name == "" {
+		check_flag = 0 // エラー時はフラグを変更
 	} else {
-		resJson.Http_status = http.StatusCreated
+		update_sentence := fmt.Sprintf("UPDATE attendance_information SET attendance_flag=%d WHERE student_id='%s' AND lecture_history_id='%s';", post.Attend_flag, post.Student_id, post.Subject_id)
+		if _, err := db.Exec(update_sentence); err != nil {
+			check_flag = 0
+		}
 	}
 
+	resJson.Check_flag = check_flag
+	resJson.Http_status = http.StatusCreated
 	return c.JSON(http.StatusCreated, resJson)
 }
 
@@ -92,6 +105,7 @@ type ReceiveReload struct {
 
 type ReturnReload struct {
 	Subject_name string `json:"subject_name"`
+	Subject_id   string `json:"subject_id"`
 	Http_status  int    `json:"http_status"`
 }
 
@@ -108,8 +122,8 @@ func PostReload(c echo.Context) error {
 	} else {
 		where_phase = fmt.Sprintf("WHERE lecture_history.lecture_date_and_time-10800<=%d AND lecture_history.lecture_date_and_time+10800>=%d AND attendance_information.student_id='%s';", post.Now_time, post.Now_time, post.Student_id)
 	}
-	extract_sentence := `SELECT lecture_catalog.lecture_name FROM lecture_catalog 
-						INNER JOIN lecture_history ON lecture_catalog.lecture_catalog_id=lecture_history.lecture_catalog_id 
+	extract_sentence := `SELECT lecture_catalog.lecture_name, lecture_catalog.lecture_id FROM lecture_catalog 
+						INNER JOIN lecture_history ON lecture_catalog.lecture_id=lecture_history.lecture_catalog_id 
 						INNER JOIN attendance_information ON lecture_history.lecture_history_id=attendance_information.lecture_history_id `
 	extract_sentence += where_phase
 
@@ -117,15 +131,16 @@ func PostReload(c echo.Context) error {
 	rows, err := db.Query(extract_sentence)
 	defer rows.Close()
 
-	resJson := []ReturnReload{}
+	resJson := make([]ReturnReload, 0)
 	if err != nil {
 		resJson = append(resJson, ReturnReload{})
 		resJson[0].Subject_name = ""
+		resJson[0].Subject_id = ""
 		resJson[0].Http_status = http.StatusCreated
 	} else {
 		for rows.Next() {
 			res := ReturnReload{}
-			rows.Scan(&res.Subject_name)
+			rows.Scan(&res.Subject_name, &res.Subject_id)
 			res.Http_status = http.StatusCreated
 			fmt.Println(res)
 			resJson = append(resJson, res)

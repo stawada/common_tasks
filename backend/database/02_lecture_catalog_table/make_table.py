@@ -15,7 +15,7 @@ def make_table(n, table_name, output_path):
         lecture_name = "".join(random.choices([chr(i) for i in range(97,123)], k=random.randint(1,20)))
         # 講義id
         # このカラムは用途が不明なので使わない可能性あり
-        lecture_id = lecture_catalog_id[::-1] # 現状はテキトーにしておく
+        lecture_id = lecture_catalog_id # 現状はテキトーにしておく
         insert_sentence += f"INSERT INTO {table_name} VALUES ('{lecture_catalog_id}', '{lecture_name}', '{lecture_id}');\n"
     
     with open(output_path, "w") as wf:
