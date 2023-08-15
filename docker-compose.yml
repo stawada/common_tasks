@@ -16,7 +16,7 @@ services:
     volumes:
       - .:/common_tasks
     ports:
-      - 3001:3001
+      - 3000:3000
 
   db:
     image: postgres:13.11
@@ -26,6 +26,8 @@ services:
     volumes:
       - db-store:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=Pasona123
+      POSTGRES_DB: sample
+      POSTGRES_USER: stawada
+
 volumes:
   db-store:
