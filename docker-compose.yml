@@ -3,6 +3,7 @@ services:
   go:
     build: .
     tty: true
+    container_name: go
     volumes:
       - .:/common_tasks
     ports:
