@@ -8,3 +8,5 @@ RUN mkdir front_app
 WORKDIR /front_app
 
 COPY . /front_app
+
+RUN npm install
