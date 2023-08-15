@@ -1,65 +1,81 @@
-html{
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-/* ヘッダーのスタイル*/
-.Header{
-  background-color: #F3AF2B;
-  height: 150px;
-}
-
-.Footer{
-  background-color: #787878;
-  height: 60px;
-
-}
-
-/* スマホの場合、適用されるCSS */
-@media(min-width: 576px){
-button{
+html,body,#app{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: white;
   
+  text-align: center;
 }
+
+#attend_content h1{
+    font-size: 60px;
+    font-weight: 600;
+    color: #F3AF2B;
+}
+#attend_content h3{
+  font-size: 25px;
+  font-weight: bold;
+  color: #494848;
+}
+#attend_content a{
+  text-decoration-line: none;
+  text-shadow: 1px 3px 3px rgba(0,0,0,0.25);
+  font-size: 20px;
+  font-weight: lighter;
+  color: #494848;
 
 }
 
-.body{
-    background-color: white;
+.radius_btn{
+  width: 80%;
+  height: 140px;
+  max-width: 400px;
+  border: 0;
+  border-radius: 20px;
+  box-shadow: 0 4px 4px rgba(0,0,0,0.12), 0 4px 4px rgba(0,0,0,0.24);
+  
+  font-size: 65px;
+  font-weight: 600;
+  color: white;
+}
+.can_click_btn{
+  background-color: #F5C343;
 }
 
+
+
+/*
+.content-footer{
+  min-height: 100%;
+  position: relative;
+}
+
+*/
+
+
+/* スマホ以外の場合、適用されるCSS */
+@media(min-width: 576px){
+  .Header p{
+  }
+
+}
+
+/*
 #title{
     text-align: center;
     height: 40%;
     margin: 0 auto;
 
 }
-.text1{
-    font-size: 50px;
-    color: #F3AF2B;
-    margin-block-start: 5%;
-    margin-block-end: 5%;
-}
 .text2{
     font-size: 30px;
-    margin-block: 0;
 }
 
 #cant_attend{
     display: none;
 }
 .orange_button{
-  border: 0;
-  border-radius: 20px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.12), 0 3px 6px rgba(0,0,0,0.24);
   
-  width: 80%;
-  height: 120px;
-  max-width: 400px;
-    
-  color: white;
-  text-align: center;
-  font-size: 60px;
   
   /*
   position:absolute;
@@ -67,27 +83,15 @@ button{
   transform: translateX(-50%);
   top: 60%;
   
-  */
+  */ /*
 }
 .orange_button:active{
   box-shadow: 1px 1px 0 rgba(0,0,0,0.12);
 }
 
-.can_click_btn{
-  background-color: #F5C343;
-  
-
-}
 
 .cant_click_btn{
   background-color: #e2e2e2;
 }
 
-@media (min-width: 1024px) {
-  body {
-    /*
-    display: flex;
-    place-items: center;
-    */
-  }
-}
+*/

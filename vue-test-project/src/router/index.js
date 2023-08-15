@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Top from '../pages/Top.vue'
+import { useUserStore } from '../stores/user'
 
 
 const router = createRouter({
@@ -29,6 +30,12 @@ const router = createRouter({
       path: '/attendance_check',
       name: 'attendance_check',
       component: () => import('../pages/AttendanceCheck.vue')
+    },
+    // 後で消す!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    {
+      path: '/logout',
+      name: 'logout',
+      component: () => import('../pages/Logout.vue')
     }
   
   ]

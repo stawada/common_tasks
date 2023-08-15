@@ -2,7 +2,7 @@
     <form name="login">
         <div class="textfield-container">
             <div class="id">
-                <input type="text" name="student_id" placeholder="学生番号" v-model="student_id" @change="onEmit">
+                <input type="id" name="student_id" placeholder="学生番号" v-model="student_id" @change="onEmit">
             </div>
             <div class="password">
                 <input type="password" name="password" placeholder="パスワード" v-model="password" @change="onEmit">
