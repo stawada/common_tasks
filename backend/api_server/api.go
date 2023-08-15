@@ -120,7 +120,8 @@ func PostReload(c echo.Context) error {
 	if post.Now_time == 0 {
 		where_phase = fmt.Sprintf("WHERE attendance_information.student_id='%s';", post.Student_id)
 	} else {
-		where_phase = fmt.Sprintf("WHERE lecture_history.lecture_date_and_time-10800<=%d AND lecture_history.lecture_date_and_time+10800>=%d AND attendance_information.student_id='%s';", post.Now_time, post.Now_time, post.Student_id)
+		// 10800 ３時間
+		where_phase = fmt.Sprintf("WHERE lecture_history.lecture_date_and_time-600<=%d AND lecture_history.lecture_date_and_time+600>=%d AND attendance_information.student_id='%s';", post.Now_time, post.Now_time, post.Student_id)
 	}
 	extract_sentence := `SELECT lecture_catalog.lecture_name, lecture_catalog.lecture_id FROM lecture_catalog 
 						INNER JOIN lecture_history ON lecture_catalog.lecture_id=lecture_history.lecture_catalog_id 
