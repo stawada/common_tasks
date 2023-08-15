@@ -42,7 +42,7 @@ func PostLogin(c echo.Context) error {
 	resJson := ReturnLoginInfo{}
 	select_sentence := fmt.Sprintf("SELECT student_id, hashed_password FROM student where student_id='%s' and hashed_password='%s';", post.Student_id, post.Hashed_password)
 	fmt.Println(select_sentence)
-	if err := db.QueryRow(select_sentence).Scan(&checkJson.Student_id, &checkJson.Hashed_password); err != nil && &checkJson != nil {
+	if err := db.QueryRow(select_sentence).Scan(&checkJson.Student_id, &checkJson.Hashed_password); err != nil {
 		// 失敗時はフラグ=0
 		resJson.Match_flag = 0
 		resJson.Http_status = http.StatusCreated
