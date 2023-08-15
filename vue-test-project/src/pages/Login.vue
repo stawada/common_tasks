@@ -28,21 +28,14 @@ export default {
 
       async onclick(){
         alert("click");
-        //console.log("親コンポーネント id: " + this.student_id + " pw: " +  await this.sha256(this.password));
+        console.log("親コンポーネント id: " + this.student_id + " pw: " +  await this.sha256(this.password));
         this.postJson()
       },
 
-<<<<<<< HEAD
       async postJson(){
         axios.post('http://localhost:8080/attendance/login',{
         "student_id": this.student_id,
         "hashed_password": await this.sha256(this.password),
-=======
-      getJson(){
-        axios.post('http://localhost:8080/attendance/login',{
-        "student_id": this.student_id,
-        "hashed_password": this.password,
->>>>>>> eb838d019d37bb21f5eb90fd62900e901458fca0
       })
       .then(
         response => console.log(response),
