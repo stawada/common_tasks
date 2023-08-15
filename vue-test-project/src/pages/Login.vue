@@ -11,7 +11,6 @@ export default {
     },
 
     methods: {
-      
       getVal(id, pw){
         this.student_id = id;
         this.password = pw;
@@ -19,7 +18,7 @@ export default {
 
 
       async onclick(){
-        alert("click");
+        //alert("click");
         //console.log("親コンポーネント id: " + this.student_id + " pw: " +  await this.sha256(this.password));
         this.postJson()
       },
@@ -31,7 +30,13 @@ export default {
       })
       .then(
         response => console.log(response),
-        this.$router.push('/attendance_check')
+        map ReturnLoginInfo = 
+        if (this.response.matchflag == 1) {
+          alert("true");
+        }else{
+          alert("false");
+        }
+        this.matchFlag(),
       ).catch(error => console.log(error))
       },
 
@@ -44,6 +49,13 @@ export default {
         return hashHex;
       },
 
+      matchFlag(){
+        if (this.response.matchflag == 1) {
+          alert("true");
+        }else{
+          alert("false");
+        }
+      },
 
     data() {
       return {

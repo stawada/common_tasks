@@ -38,7 +38,6 @@ header {
   align-items: center;
   height: auto;
   margin-top: 50px;
-  color: white;
 }
 
 </style>
