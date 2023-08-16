@@ -10,16 +10,30 @@
 </template>
 
 <style>
+@media screen and (min-width: 400px){ /*PC用 */
+html {
+  background-color: white;
+  margin-left: 22%;
+  margin-right: 22%;
+  padding: 0;
+}
+
+body {
+background-color: orange;
+}
+}
+
+@media screen and (max-width: 400px){ /*スマホ用 */
 html {
   background-color: orange;
 }
 
 body {
-  background-color: orange;
+background-color: orange;
 }
-
+}
 header {
-  margin-top: 100px;
+  background-color: orange;
 }
 
 .container {
@@ -35,7 +49,6 @@ header {
   text-align: center;
   width: auto;
   height: auto;
-  background-color: orange;
 }
 
 .massage{
@@ -49,8 +62,6 @@ header {
   color: white;
   background-color: orange;
 }
-
-
 
 </style>
 
