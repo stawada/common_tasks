@@ -11,9 +11,16 @@ html,body,#app{
     font-size: 60px;
     font-weight: 600;
     color: #F3AF2B;
+    padding-bottom: 20px;
+}
+#attend_content h2{
+  font-size: 35px;
+  font-weight: 600;
+  color: #F3AF2B;
+  padding-bottom: 10px;
 }
 #attend_content h3{
-  font-size: 25px;
+  font-size: 30px;
   font-weight: bold;
   color: #494848;
 }
@@ -23,7 +30,18 @@ html,body,#app{
   font-size: 20px;
   font-weight: lighter;
   color: #494848;
+}
 
+#attend_content div#title{
+  min-height: 260px;
+  max-height: 260px;
+}
+
+div#title div#can_attend{
+  padding-top: 70px;
+}
+div#attend_content div#button{
+  margin-bottom: 10px;
 }
 
 .radius_btn{
@@ -41,7 +59,9 @@ html,body,#app{
 .can_click_btn{
   background-color: #F5C343;
 }
-
+.cant_click_btn{
+  background-color: #e2e2e2;
+}
 
 
 /*
@@ -90,8 +110,6 @@ html,body,#app{
 }
 
 
-.cant_click_btn{
-  background-color: #e2e2e2;
-}
+
 
 */

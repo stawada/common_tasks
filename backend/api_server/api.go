@@ -42,7 +42,7 @@ func PostLogin(c echo.Context) error {
 	resJson := ReturnLoginInfo{}
 	select_sentence := fmt.Sprintf("SELECT student_id, hashed_password FROM student where student_id='%s' and hashed_password='%s';", post.Student_id, post.Hashed_password)
 	fmt.Println(select_sentence)
-	if err := db.QueryRow(select_sentence).Scan(&checkJson.Student_id, &checkJson.Hashed_password); err != nil && &checkJson != nil {
+	if err := db.QueryRow(select_sentence).Scan(&checkJson.Student_id, &checkJson.Hashed_password); err != nil {
 		// 失敗時はフラグ=0
 		resJson.Match_flag = 0
 		resJson.Http_status = http.StatusCreated
@@ -123,7 +123,7 @@ func PostReload(c echo.Context) error {
 		// 10800 ３時間
 		where_phase = fmt.Sprintf("WHERE lecture_history.lecture_date_and_time-600<=%d AND lecture_history.lecture_date_and_time+600>=%d AND attendance_information.student_id='%s';", post.Now_time, post.Now_time, post.Student_id)
 	}
-	extract_sentence := `SELECT lecture_catalog.lecture_name, lecture_catalog.lecture_id FROM lecture_catalog 
+	extract_sentence := `SELECT lecture_catalog.lecture_name, lecture_catalog.lecture_id, attendance_information.attendance_flag FROM lecture_catalog 
 						INNER JOIN lecture_history ON lecture_catalog.lecture_id=lecture_history.lecture_catalog_id 
 						INNER JOIN attendance_information ON lecture_history.lecture_history_id=attendance_information.lecture_history_id `
 	extract_sentence += where_phase
@@ -140,10 +140,14 @@ func PostReload(c echo.Context) error {
 		resJson[0].Http_status = http.StatusCreated
 	} else {
 		for rows.Next() {
+			var attend_flag int
 			res := ReturnReload{}
-			rows.Scan(&res.Subject_name, &res.Subject_id)
+			rows.Scan(&res.Subject_name, &res.Subject_id, &attend_flag)
+			// 出席済み or 事前欠席済みの場合はreturnのデータに含めない
+			if attend_flag != 0 {
+				continue
+			}
 			res.Http_status = http.StatusCreated
-			fmt.Println(res)
 			resJson = append(resJson, res)
 		}
 	}

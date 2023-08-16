@@ -27,7 +27,7 @@ export default {
   font-size: 45px;
   text-align: center;
   font-weight: 550;
-  padding: 20% 0 0 0;
+  padding: 80px 0 0 0;
 }
 
 /* スマホ以外の場合、適用されるCSS */
