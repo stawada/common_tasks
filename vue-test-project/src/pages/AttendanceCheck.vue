@@ -1,16 +1,20 @@
 <template>
   <header>
     <div class="container">
-      <img src="@/assets/check.png" alt="check" class="check-img"/>
+      <br><br><br><br><br><img src="@/assets/check.png" alt="check" class="check-img"/><br><br><br>
     </div>
   </header>
   <body>
-    <p class="massage">出席登録できました。</p>
+    <p class="massage">　出席登録できました。</p>
   </body>
 </template>
 
 <style>
 html {
+  background-color: orange;
+}
+
+body {
   background-color: orange;
 }
 
@@ -24,21 +28,29 @@ header {
   justify-content: center;
   align-items: center;
   height: auto;
+  background-color: orange;
 }
 
 .check-img {
-  width: 100px;
-  height: 100px;
+  text-align: center;
+  width: auto;
+  height: auto;
+  background-color: orange;
 }
 
 .massage{
+  font-size: 25px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: auto;
-  margin-top: 50px;
+  /*margin-top: 100px;*/
   color: white;
+  background-color: orange;
 }
 
+
+
 </style>
+
