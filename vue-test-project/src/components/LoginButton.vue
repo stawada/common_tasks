@@ -1,8 +1,6 @@
 <template>
-    <div class="button-container">
-        <div class="LoginButton">
-            <button @click='$emit("handleAbsent")'>本人確認</button>
-        </div>
+    <div class="LoginButton">
+        <button @click='$emit("handleAbsent")'>本人確認</button>
     </div>
 </template>
 
@@ -19,15 +17,13 @@
 </script>
 
 <style>
-.button-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    /* width: 100px; */
-}
+.LoginButton button{
+    border: 0;
+    height: 47px;
+    width: 160px;
 
-.AbsButton {
-    margin: 10px;
+    color: white;
+    font-size: 32px;
+    background-color: #787878;
 }
 </style>

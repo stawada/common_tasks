@@ -1,44 +1,21 @@
 <template>
-  <header>
-    <div class="container">
-      <img src="@/assets/check.png" alt="check" class="check-img"/>
+    <div class="check" id="attendance_check" @click="onclick">
+      <div class="img">
+        <img src="@/assets/check.png" alt="check" class="check-img"/>
+      </div>
+      <p class="massage">出席登録できました。</p>
+      <h5>画面をタッチしたらホームに戻ります。</h5>
     </div>
-  </header>
-  <body>
-    <p class="massage">出席登録できました。</p>
-  </body>
 </template>
-
+<script>
+  export default{
+    methods: {
+      onclick(){
+        this.$router.push("/attend");
+      }
+    }
+  }
+</script>
 <style>
-html {
-  background-color: orange;
-}
-
-header {
-  margin-top: 100px;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: auto;
-}
-
-.check-img {
-  width: 100px;
-  height: 100px;
-}
-
-.massage{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: auto;
-  margin-top: 50px;
-  color: white;
-}
-
 </style>
+

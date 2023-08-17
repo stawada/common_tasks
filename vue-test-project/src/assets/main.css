@@ -7,6 +7,7 @@ html,body,#app{
   text-align: center;
 }
 
+/* 出席登録画面 */
 #attend_content h1{
     font-size: 60px;
     font-weight: 600;
@@ -44,6 +45,7 @@ div#attend_content div#button{
   margin-bottom: 10px;
 }
 
+/* ボタン */
 .radius_btn{
   width: 80%;
   height: 140px;
@@ -56,6 +58,9 @@ div#attend_content div#button{
   font-weight: 600;
   color: white;
 }
+.radius_button:active{
+  box-shadow: 1px 1px 0 rgba(0,0,0,0.12);
+}
 .can_click_btn{
   background-color: #F5C343;
 }
@@ -63,15 +68,68 @@ div#attend_content div#button{
   background-color: #e2e2e2;
 }
 
-
-/*
-.content-footer{
-  min-height: 100%;
-  position: relative;
+/* check画面 */
+.check{
+  height: 100%;
+}
+div.check div.img{
+  padding-top: 250px;
+  padding-bottom: 50px;
+}
+div.check p{
+  color: white;
+  font-size: 30px;
+  font-weight: 600;
+  padding-bottom: 230px;
+}
+div.check h5{
+  color: rgba(255,255,255,0.8);
+  font-size: 15px;
+}
+#attendance_check{
+  background-color: #F3AF2B;
+}
+#absent_check{
+  background-color: #787878;
 }
 
-*/
 
+.login{
+  background-color: #F3AF2B;
+  height: 100%;
+}
+.login div.logo-container{
+  padding-top: 100px;
+  padding-bottom: 40px;
+}
+.login div.textfield{
+  padding-bottom: 45px;
+}
+
+
+.id input, .password input{
+  border: 0;
+  background-color: white;
+
+  text-align: center;
+  font-size: 30px;
+  color: #494848;
+
+  width: 270px ;
+  height: 47px;
+}
+.id{
+  padding-bottom: 35px;
+}
+.LoginButton button{
+  border: 0;
+  height: 47px;
+  width: 160px;
+
+  color: white;
+  font-size: 32px;
+  background-color: #787878;
+}
 
 /* スマホ以外の場合、適用されるCSS */
 @media(min-width: 576px){
@@ -91,23 +149,7 @@ div#attend_content div#button{
     font-size: 30px;
 }
 
-#cant_attend{
-    display: none;
-}
-.orange_button{
-  
-  
-  /*
-  position:absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 60%;
-  
-  */ /*
-}
-.orange_button:active{
-  box-shadow: 1px 1px 0 rgba(0,0,0,0.12);
-}
+
 
 
 

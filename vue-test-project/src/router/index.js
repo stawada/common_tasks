@@ -8,7 +8,7 @@ const router = new createRouter({
     {
       path: '/',
       name: 'login',
-      component: Top,
+      component: Top
     },
     {
       path: '/attend',
@@ -38,25 +38,18 @@ const router = new createRouter({
     }
   ]
 })
-    //!!!!!!!!!!!!!!test後修正する
-    router.beforeEach((to,next) => {
-      const user = useUserStore();
-      if(to.name != "logout" && !user.isLoggedIn){
-        alert("user.isLoggedIn : " + user.isLoggedIn)
-        return "/logout"
-      }else if(to.name == 'login' && user.isLoggedIn){
-        alert("既にログイン情報があります。")
-        return "/attend"
-      }
-      // //ログインしていないユーザがログイン外のページに移動する場合、ログインページに遷移する
-      // if(to.name != "login" && !user.isLoggedIn){
-      //   alert("ログインしてください。")
-      //   return "/"
-      // //ログインしているユーザがログインページに移動する場合、出席登録ページに遷移する
-      // }else if(to.name == 'login' && user.isLoggedIn){
-      //   alert("既にログイン情報があります。")
-      //   return "/attend"
-      // }
-    })
+    //!!!!!!!!!!!!!!test後コメント外す
+    //ログインしていないユーザがログイン外のページに移動する場合、ログインページに遷移する
+    // router.beforeEach((to) => {
+    //   const user = useUserStore();
+    //   if(to.name != "login" && !user.isLoggedIn){
+    //     alert("ログインしてください。")
+    //     return "/"
+    //   //ログインしているユーザがログインページに移動する場合、出席登録ページに遷移する
+    //   }else if(to.name == 'login' && user.isLoggedIn){
+    //     alert("既にログイン情報があります。")
+    //     return "/attend"
+    //   }
+    // })
     
     export default router

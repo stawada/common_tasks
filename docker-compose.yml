@@ -1,12 +1,34 @@
 version: '3'
 services:
   go:
-    build: .
+    build: ./backend
     tty: true
+    container_name: back
+    volumes:
+      - .:/common_tasks
+    ports:
+      - 8080:8080
+
+  vue:
+    build: ./vue-test-project
+    tty: true
+    container_name: front
     volumes:
       - .:/common_tasks
     ports:
       - 3000:3000
 
+  db:
+    image: postgres:13.11
+    container_name: psql
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - db-store:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: sample
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
 volumes:
-  db-volumes:
+  db-store:

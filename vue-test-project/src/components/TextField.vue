@@ -31,23 +31,19 @@ export default {
 </script>
 
 <style>
+    .id input, .password input{
+    border: 0;
+    background-color: white;
 
-form {
-    margin: center;
-}
+    text-align: center;
+    font-size: 30px;
+    color: #494848;
 
-form input[type ="text"],form input[type ="password"]{
-border: 0;
-background: none;
-display: block;
-margin: 20px auto;
-border: 2px solid #C0C0C0;
-padding: 15px 10px;
-width: 200px;
-outline: none;
-border-radius: 0.25px;
-transition: 0.25s;
-text-align: center;
-background-color: white;
-}
+    width: 270px ;
+    height: 47px;
+    }
+    .id{
+    padding-bottom: 35px;
+    }
+
 </style>

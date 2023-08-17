@@ -117,7 +117,7 @@ export default {
                 this.BASE_URL + 'attend',
                 {
                     attend_flag : 1,
-                    now_time : 1691553600,      //!!!!!!!!!!nowTime
+                    now_time : 1699999900,      //!!!!!!!!!!nowTime
                     student_id : "G000000000",  //!!!!!!!!!!user_id
                     subject_id : this.subject_id
                 }

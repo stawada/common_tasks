@@ -3,8 +3,8 @@ FROM golang:1.20.6-alpine
 RUN apk update && apk add \
     git
 
-WORKDIR /app
+RUN mkdir back_app
 
-COPY ./backend /app
+WORKDIR /back_app
 
-
+COPY . /back_app
