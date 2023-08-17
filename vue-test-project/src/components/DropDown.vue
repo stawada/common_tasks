@@ -1,14 +1,14 @@
 <template>
     <div class="dropdown-container">
         <div class="dropdown">
-        <select v-model="selectSubject" @change="onEmit">
+        <select v-model="selectSubject" @change="bothFanction">
             <option value="" selected>講義名</option>
             <option v-for="subject_name in subjectName" :key="subject_name" >{{ subject_name }}</option>
             </select>
         </div>
         <div class="dropdown">
-        <select v-model="lecture_date_and_time">
-            <option v-for="subject_time in subjectTime" :key="subject_time" >{{ subject_time }}</option>
+        <select v-model="lectureDateAndTime" @change="onEmit">
+            <option v-for="subject_time in dateTime" :key="subject_time" >{{ subject_time }}</option>
         </select>
         </div>
     </div>
@@ -20,11 +20,14 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
+
 }
 
-.dropdown {
-    margin: 10px;
+.headline {
+    margin-top: 5%;
+    text-align: left;
+    margin-left:13%;
 }
 </style>
 
@@ -38,20 +41,47 @@ export default {
             default (){
                 return []
             }
+        },
+        subjectTime: {
+            type: Array,
+            default (){
+                return []
+            }
         }
     },
 
     data (){
         return {
             selectSubject:'',
-            subject_name:[],
+            lecture_date_and_time:'',
+            key:'',
+            dateTime:[],
+            subTimeKey:[],
+            subTimeValues:[]
         }
     },
     methods: {
-        onEmit(){
-            this.$emit("onChange")
+        bothFanction(){
+            this.onEmit(),
+            this.arrayKey()
         },
 
+        onEmit(){
+            this.$emit("onChange",this.selectSubject,this.lectureDateAndTime)
+        },
+//subjectNameのkeyに対応したsubjectTimeのみを表示する
+        arrayKey(){
+            this.key = this.selectSubject;
+            this.subTimeKey = Object.keys(this.subjectTime)
+            this.subTimeValues = Object.values(this.subjectTime)
+            console.log(this.key,this.subTimeKey)
+            for(let i=0; i<this.subjectName.length; i++){
+                if(this.key == this.subTimeKey[i]){
+                    var date = this.subTimeValues[i]
+                    this.dateTime[i] = new Date(date*1000).toLocaleString() ;
+                }
+            }
+        }
     }
 }
 </script>

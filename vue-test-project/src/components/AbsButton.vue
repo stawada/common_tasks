@@ -16,18 +16,3 @@
         }
     }
 </script>
-
-<style>
-.button-container {
-    width: 150px;
-    height: 100px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.AbsButton {
-    margin: 10px;
-}
-</style>

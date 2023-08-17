@@ -65,7 +65,12 @@ export default {
                 }
 
                 for(let i=0; i<response.data.length; i++){
-                this.subjectTime[i].response.data[i].subject_name = response.data[i].subject_name
+                  // console.log(this.subjectTime[i][response.data[i].subject_name] , response.data[i].subject_time)
+                  // this.subjectTime[response.data[i].subject_name] = response.data[i].subject_time
+                  this.subjectTime[this.subjectName[i]] = []
+                }
+                for(let i=0; i<response.data.length; i++){
+                  this.subjectTime[response.data[i].subject_name].push(response.data[i].subject_time)
                 }
             },
             //response => this.subjectName = response.data,
@@ -100,23 +105,9 @@ export default {
         <AbsButton />
       </div>
       <div>
-        <!--<p>{{ this.subjectName }}</p>-->
+        <!-- <p>{{ this.subjectTime }}</p> -->
       </div>
     </body>
     <Footer />
 </html>
 </template>
-
-<style>
-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-};
-
-head {
-  margin: 50px;
-  padding: 100px;
-};
-</style>
