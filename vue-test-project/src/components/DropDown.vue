@@ -1,38 +1,14 @@
-<!--
-<template>
-    <div class="dropdown" style="width:100%; display:flex; justify-content: center; align-items: center;">
-        <div>
-            <select>
-            <option value="math">数学</option>
-            <option value="japanese">国語</option>
-            <option value="english">英語</option>
-        </select>
-        </div>
-        <div>
-            <select>
-            <option value="option1">7/20 11:00</option>
-            <option value="option2">7/20 14:20</option>
-            <option value="option3">7/22 13:30</option>
-        </select>
-        </div>
-    </div>
-</template>
--->
-
 <template>
     <div class="dropdown-container">
         <div class="dropdown">
-        <select>
-            <option value="math">数学</option>
-            <option value="japanese">国語</option>
-            <option value="english">英語</option>
-        </select>
+        <select v-model="selectSubject" @change="onEmit">
+            <option value="" selected>講義名</option>
+            <option v-for="subject_name in subjectName" :key="subject_name" >{{ subject_name }}</option>
+            </select>
         </div>
         <div class="dropdown">
-        <select>
-            <option value="option1">7/20 11:00</option>
-            <option value="option2">7/20 14:20</option>
-            <option value="option3">7/22 13:30</option>
+        <select v-model="lecture_date_and_time">
+            <option v-for="subject_time in subjectTime" :key="subject_time" >{{ subject_time }}</option>
         </select>
         </div>
     </div>
@@ -52,3 +28,30 @@
 }
 </style>
 
+<script>
+
+export default {
+
+    props:{
+        subjectName: {
+            type: Array,
+            default (){
+                return []
+            }
+        }
+    },
+
+    data (){
+        return {
+            selectSubject:'',
+            subject_name:[],
+        }
+    },
+    methods: {
+        onEmit(){
+            this.$emit("onChange")
+        },
+
+    }
+}
+</script>

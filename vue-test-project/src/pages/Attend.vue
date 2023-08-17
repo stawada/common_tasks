@@ -36,20 +36,21 @@ export default {
 
 
         //ページロード時、実行されるmethod：学生id、現在時間をPOSTで送り、受講できるかについてのstatus、受講できる講義名、講義idをもらう
-        // axios.post(this.BASE_URL + 'reload' //?????
-        //     ,{
-        //         student_id: '111111',  //!!!!!저장소에서 학생아이디 꺼내기
-        //         now_time : nowTime
-        //     }
-        //     ).then( response => console.log(response)
-        //             if(response.status>0){
-        //                 this.can_attend = true;
-        //                 this.can_attend_subject = "math"
-        //                 this.subject_id = '111111'
-        //             }else{
-        //                 this.can_attend = false
-        //             }
-        //     ).catch(console => console.log(error))
+        axios.post(this.BASE_URL + 'reload' //?????
+            ,{
+                student_id: 'G000000000',  //!!!!!저장소에서 학생아이디 꺼내기
+                //now_time : nowTime
+            }
+            // ).then( response => console.log(response)
+            //         if(response.status>0){
+            //             this.can_attend = true;
+            //             this.can_attend_subject = "math"
+            //             this.subject_id = '111111'
+            //         }else{
+            //             this.can_attend = false
+            //         }
+            // ).catch(console => console.log(error))
+        )
     },
     data (){
         return{

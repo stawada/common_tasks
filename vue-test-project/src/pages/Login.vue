@@ -37,14 +37,14 @@ export default {
         "hashed_password": await this.sha256(this.password),
       })
       .then(
-        response => console.log(response),
-        map ReturnLoginInfo = 
-        if (this.response.matchflag == 1) {
-          alert("true");
-        }else{
-          alert("false");
-        }
-        this.matchFlag(),
+        // response => console.log(response),
+        // map ReturnLoginInfo = 
+        // if (this.response.matchflag == 1) {
+        //   alert("true");
+        // }else{
+        //   alert("false");
+        // }
+        // this.matchFlag(),
       ).catch(error => console.log(error))
       },
 
