@@ -1,7 +1,7 @@
 <template>
     <div class="button-container">
         <div class="AbsButton">
-            <button @click="handleAbsent">欠席</button>
+            <button class="radius_btn" @click="handleAbsent">欠席</button>
         </div>
     </div>
 </template>
@@ -18,16 +18,5 @@
 </script>
 
 <style>
-.button-container {
-    width: 150px;
-    height: 100px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
 
-.AbsButton {
-    margin: 10px;
-}
 </style>
