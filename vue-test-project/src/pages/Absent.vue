@@ -40,15 +40,6 @@ export default {
 </template>
 
 <style>
-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-};
 
-head {
-  margin: 50px;
-  padding: 100px;
-};
+
 </style>
