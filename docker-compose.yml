@@ -8,6 +8,8 @@ services:
       - .:/common_tasks
     ports:
       - 8080:8080
+    links:
+     - db:db
 
   vue:
     build: ./vue-test-project
@@ -23,12 +25,12 @@ services:
     container_name: psql
     restart: always
     ports:
-      - 5432:5432
+      - 5433:5432
     volumes:
       - db-store:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: sample
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: secret
+      POSTGRES_PASSWORD: Pasona123
 volumes:
   db-store:

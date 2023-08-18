@@ -14,8 +14,9 @@ var db *sql.DB
 
 func init() {
 	var err error
-	db, err = sql.Open("postgres", "host=localhost user=stawada dbname=sample sslmode=disable")
+	db, err = sql.Open("postgres", "host=db user=postgres password=Pasona123 sslmode=disable")
 	if err != nil {
+		fmt.Println("エラーがでてます!!!!!!!!!!!!")
 		panic("Not found Database.")
 	}
 }
@@ -42,13 +43,14 @@ func PostLogin(c echo.Context) error {
 	resJson := ReturnLoginInfo{}
 	select_sentence := fmt.Sprintf("SELECT student_id, hashed_password FROM student where student_id='%s' and hashed_password='%s';", post.Student_id, post.Hashed_password)
 	fmt.Println(select_sentence)
-	if err := db.QueryRow(select_sentence).Scan(&checkJson.Student_id, &checkJson.Hashed_password); err != nil && &checkJson != nil {
+		if err := db.QueryRow(select_sentence).Scan(&checkJson.Student_id, &checkJson.Hashed_password); err != nil && &checkJson != nil {
 		// 失敗時はフラグ=0
 		resJson.Match_flag = 0
 		resJson.Http_status = http.StatusCreated
 	} else {
 		// 成功時はフラグ=1
 		resJson.Match_flag = 1
+		fmt.Println("111111111111111111111111")
 		resJson.Http_status = http.StatusCreated
 	}
 
