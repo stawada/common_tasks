@@ -27,19 +27,19 @@ export default {
         <title>出欠選択画面</title>
     </head>
       <Header :title="title"/>
-    <body>
-      <div>
+      <div class="absent_dropdown">
         <DropDown />
       </div>
       <div>
         <AbsButton />
       </div>
-    </body>
     <Footer />
 </html>
 </template>
 
 <style>
-
-
+.absent_dropdown{
+  padding-top: 90px;
+  padding-bottom: 10px;
+}
 </style>

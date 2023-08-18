@@ -45,9 +45,9 @@ div#attend_content div#button{
   margin-bottom: 10px;
 }
 
-/* ボタン */
+/* ボタン（/attend, /absent） */
 .radius_btn{
-  width: 80%;
+  width: 313px;
   height: 140px;
   max-width: 400px;
   border: 0;
@@ -68,7 +68,7 @@ div#attend_content div#button{
   background-color: #e2e2e2;
 }
 
-/* check画面 */
+/* check画面（/absent_check, /attendance_check） */
 .check{
   height: 100%;
 }
@@ -94,64 +94,9 @@ div.check h5{
 }
 
 
-.login{
-  background-color: #F3AF2B;
-  height: 100%;
-}
-.login div.logo-container{
-  padding-top: 100px;
-  padding-bottom: 40px;
-}
-.login div.textfield{
-  padding-bottom: 45px;
-}
-
-
-.id input, .password input{
-  border: 0;
-  background-color: white;
-
-  text-align: center;
-  font-size: 30px;
-  color: #494848;
-
-  width: 270px ;
-  height: 47px;
-}
-.id{
-  padding-bottom: 35px;
-}
-.LoginButton button{
-  border: 0;
-  height: 47px;
-  width: 160px;
-
-  color: white;
-  font-size: 32px;
-  background-color: #787878;
-}
-
 /* スマホ以外の場合、適用されるCSS */
 @media(min-width: 576px){
   .Header p{
   }
 
 }
-
-/*
-#title{
-    text-align: center;
-    height: 40%;
-    margin: 0 auto;
-
-}
-.text2{
-    font-size: 30px;
-}
-
-
-
-
-
-
-*/
