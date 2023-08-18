@@ -38,7 +38,7 @@ export default {
       })
       .then(
         // response => console.log(response),
-        // map ReturnLoginInfo = 
+        // map ReturnLoginInfo =
         // if (this.response.matchflag == 1) {
         //   alert("true");
         // }else{

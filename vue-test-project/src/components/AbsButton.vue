@@ -1,7 +1,7 @@
 <template>
     <div class="button-container">
         <div class="AbsButton">
-            <button @click="handleAbsent">欠席</button>
+            <button class="radius_btn" @click='$emit("handleAbsent")'>欠席</button>
         </div>
     </div>
 </template>
@@ -10,9 +10,9 @@
     export default{
         name:'AbsButton',
         methods: {
-            handleAbsent() {
-                console.log("欠席ボタンがクリックされました");
-            }
+            // handleAbsent() {
+            //     console.log("欠席ボタンがクリックされました");
+            // }
         }
     }
 </script>
