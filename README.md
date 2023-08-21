@@ -1,9 +1,9 @@
 # dockerの使い方について
 
 ## 1 githubから必要なファイルと一緒に下記ファイルをダウンロード
-* docker-compose.yml(common_tasks内)
-* Dockerfile(backend内)
-* Dockerfile(vue-test-project内)
+* docker-compose.yml(common_tasks内)  
+* Dockerfile(backend内)  
+* Dockerfile(vue-test-project内)  
 
 ## 2 dockerの起動
 アプリケーションをCUIでもGUIでもいいので立ち上げてください
