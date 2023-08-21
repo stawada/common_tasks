@@ -30,7 +30,7 @@ export default {
     },
 
     methods: {
-      
+
       getVal(id, pw){
         this.student_id = id;
         this.password = pw;
