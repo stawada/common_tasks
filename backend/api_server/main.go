@@ -1,14 +1,10 @@
 package main
 
 import (
-	"encoding/base64"
 	"fmt"
 	"net/http"
 	"time"
 
-	"github.com/gorilla/sessions"
-	// "github.com/labstack/echo"
-	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -31,60 +27,45 @@ func setCookie(c echo.Context) error {
 		return c.String(http.StatusCreated, "Missed!")
 	}
 
-	msg := []byte(post.Student_id)
-	cookie := new(http.Cookie)
-	cookie.Name = "student_id"
-	cookie.Value = base64.URLEncoding.EncodeToString(msg)
-	cookie.Expires = time.Now().Add(10 * time.Second) // 10secs
-	cookie.MaxAge = 10 // 10secs
-	cookie.Path = "/"
-	cookie.Secure = false
-	// cookie.HttpOnly = true
-	cookie.SameSite = http.SameSiteNoneMode
+	cookie := &http.Cookie{
+		Name:   "student_id",
+		Value:  post.Student_id + post.Hashed_password,
+		MaxAge: calc_timeLimitSecs(), // 翌日0:00まで
+		Path:   "/",
+	}
 
 	c.SetCookie(cookie)
-	fmt.Println("~~set cookie~~")
-	fmt.Println(cookie)
 	return c.String(http.StatusCreated, "Create new Cookie!")
 }
 
 func readCookie(c echo.Context) error {
-	/* post := ReceiveLoginInfo{}
-	err := c.Bind(post)
-	if err != nil {
-		return c.String(http.StatusCreated, "Bind Missed!")
-	} */
+	cookie, err1 := c.Cookie("student_id")
 
-	cookie, err := c.Cookie("student_id")
-	fmt.Println("~~read~~")
-	fmt.Println(cookie)
-	//fmt.Println(cookie.Name)
-	//fmt.Println(cookie.Value)
+	resJson := ReturnLoginInfo{}
+	search_studentId := fmt.Sprintf("SELECT student_id from student WHERE student_id='%s';", cookie.Value)
+	var student_id string
+	err2 := db.QueryRow((search_studentId)).Scan(&student_id)
 
-	if err != nil {
-		fmt.Println(err)
-		return c.String(http.StatusCreated, "Cookie Missed!")
+	if err1 != nil || err2 != nil {
+		resJson.Match_flag = 0
+	} else {
+		resJson.Match_flag = 1
 	}
-	return c.String(http.StatusCreated, "Success!")
+	resJson.Http_status = http.StatusCreated
+
+	return c.JSON(http.StatusCreated, resJson)
 }
 
 func main() {
 	e := echo.New()
 
-	e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 	// ミドルウェア
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowCredentials: true,
-		AllowOrigins: []string{"http://localhost:3000"},
-		/* AllowHeaders: []string{
-			echo.HeaderAccept,
-			echo.HeaderContentType,
-			echo.HeaderAccessControlAllowCredentials,
-			echo.HeaderOrigin,
-		}, */
+		AllowOrigins:     []string{"http://localhost:3000"},
 		// 今回はPOSTメソッドのみ使用する
 		AllowMethods: []string{
 			http.MethodGet,
