@@ -9,7 +9,14 @@ import { useUserStore } from '../stores/user'
 const user = useUserStore();
 
 export default {
-  data() {
+  created() {
+    console.log("test")
+    var subjectDict = {}
+    var timeDict = {}
+    timeDict['time1']='english-1'
+    subjectDict['english']
+  }
+  ,data() {
     return{
         student_id: ""
     }

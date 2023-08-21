@@ -154,7 +154,7 @@ export default {
                     }
                 }else{
                     alert("ネットワークエラーが発生しました。")
-                    router.go(0)
+                    this.$router.go(0)
                 }
             }).catch(
                 error=>{
