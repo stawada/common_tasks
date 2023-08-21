@@ -1,7 +1,4 @@
 <script setup>
-  import { useStoreCounter } from '../stores/counter'
-  const counter = useStoreCounter();
-
   import { useUserStore } from '../stores/user'
   const user = useUserStore();
 </script>
