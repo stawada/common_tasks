@@ -53,30 +53,30 @@ export default {
             ).then( response => {
                 console.log(response)
                 const object = response.data
-                if(object.http_status < 400){
-                  if(object.check_flag>-1){
+                if(object[0].http_status < 400){
+                  if(object.check_flag>0){
                       this.button_clicked = true
                       setTimeout(() => {this.$router.push('/absent_check')}, 500);
                 }else{
-                  if(object.http_status == 400){
+                  if(object[0].http_status == 400){
                       alert("BadRequest")
                       this.$router.go(0)
-                  }else if(object.http_status == 401){
+                  }else if(object[0].http_status == 401){
                       alert("Unauthorized")
                       this.$router.go(0)
-                  }else if(object.http_status == 404){
+                  }else if(object[0].http_status == 404){
                       alert("Not found")
                       this.$router.go(0)
-                  }else if(object.http_status == 412){
+                  }else if(object[0].http_status == 412){
                       alert("Precondition Failed")
                       this.$router.go(0)
-                  }else if(object.http_status == 429){
+                  }else if(object[0].http_status == 429){
                       alert("To Many Requests")
                       this.$router.go(0)
-                  }else if(object.http_status == 503){
+                  }else if(object[0].http_status == 503){
                       alert("Service Unavailable")
                       this.$router.go(0)
-                  }else if(object.http_status == 504){
+                  }else if(object[0].http_status == 504){
                       alert("Gateway Timeout")
                       this.$router.go(0)
                   }else{
@@ -104,8 +104,9 @@ export default {
             }
             ).then(
               response => {
+                console.log(response)
                 const object = response.data
-                if(object.http_status < 400){
+                if(object[0].http_status < 400){
                   this.responseJSON = response
                 var set = new Set();
                 for(let i=0; i<response.data.length; i++){
@@ -149,10 +150,8 @@ export default {
               }
             ).catch(error=>{
                     this.button_clicked = true
-                    console.log(error.response)
-                    const status = error.response.status
-                    const message = error.response.data.message
-                    alert(status + "ERROR : " + message)})
+                    console.log(error)
+                    alert(error.message)})
     }
 };
 </script>
@@ -165,12 +164,11 @@ export default {
         <title>出欠選択画面</title>
     </head>
       <Header :title="title" />
-    <body>
       <div class="absent_dropdown">
         <DropDown :subjectName="subjectName" :subjectTime="subjectTime" :responseJSON="responseJSON" @onChange="getVal"/>
       </div>
       <div>
-        <AbsButton @handleAbsent="onClick"/>
+        <AbsButton @handleAbsent="onClick" :button_clicked="button_clicked"/>
       </div>
     <Footer />
 </html>

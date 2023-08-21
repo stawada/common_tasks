@@ -4,18 +4,19 @@
             <label class="headline">講義選択をしてください</label>
         </div>
         <div class="dropdown">
-        <select v-model="selectSubject" @change="bothFanction">
-            <option value=""></option>
-            <option v-for="subject_name in subjectName" :key="subject_name" >{{ subject_name }}</option>
-        </select>
+            <select v-model="selectSubject" @change="bothFanction">
+                <option value=""></option>
+                <option v-for="subject_name in subjectName" :key="subject_name" >{{ subject_name }}</option>
+            </select>
+        </div>
         <div class="headline_container">
             <label class="headline">日付をしてください</label>
         </div>
         <div class="dropdown">
-        <select v-model="lectureDateAndTime" @change="onEmit">
-            <option value=""></option>
-            <option v-for="subject_time in dateTime" :key="subject_time" >{{ subject_time }}</option>
-        </select>
+            <select v-model="lectureDateAndTime" @change="onEmit">
+                <option value=""></option>
+                <option v-for="subject_time in dateTime" :key="subject_time" >{{ subject_time }}</option>
+            </select>
         </div>
     </div>
 </template>
@@ -25,29 +26,20 @@
 export default {
     props:{
         subjectName: {
-            type: Array,
-            default (){
-                return []
-            }
+            type: Object
         },
         subjectTime: {
-            type: Array,
-            default (){
-                return []
-            }
+            type: Object
         },
         responseJSON: {
-            type: Array,
-            default (){
-                return []
-            }
-        },
+            type: Object
+        }
     },
 
     data (){
         return {
             selectSubject:'',
-            lecture_date_and_time:'',
+            lectureDateAndTime:'',
             key:'',
             dateTime:[],
             subTimeKey:[],
