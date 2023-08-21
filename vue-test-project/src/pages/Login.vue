@@ -30,7 +30,6 @@ export default {
     },
 
     methods: {
-
       getVal(id, pw){
         this.student_id = id;
         this.password = pw;
@@ -38,7 +37,7 @@ export default {
 
 
       async onclick(){
-        // alert("click");
+        //alert("click");
         //console.log("親コンポーネント id: " + this.student_id + " pw: " +  await this.sha256(this.password));
         this.postJson()
       },
@@ -69,6 +68,13 @@ export default {
         return hashHex;
       },
 
+      matchFlag(){
+        if (this.response.matchflag == 1) {
+          alert("true");
+        }else{
+          alert("false");
+        }
+      },
 
     data() {
       return {
@@ -82,52 +88,28 @@ export default {
 </script>
 
 <template>
-  <div class="all">
+  <div class="login">
     <div class="logo-container">
-      <header>
         <img src="@/assets/logo.png" alt="logo" class="logo">
-      </header>
     </div>
-    <div class='app'>
-      <div class="components">
+      <div class="textfield">
         <TextField @appendVal="getVal"/>
-        <LoginButton @handleAbsent="onclick"/>
       </div>
-    </div>
+        <LoginButton @handleAbsent="onclick"/>
   </div>
 </template>
 
 <style>
-body{
-  background-color: white;
-  height: 100%;
-}
-
-.logo-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: auto;
-}
-
-.app{
-  height: 100%;
-}
-.all {
-  /*display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding:50px 150px 50px 150px;
-  margin: center;
-  align-content: center;
-  width: 300px;
-  */
-  height: 100%;
-  padding: 30% 0px 20% 0px;
+  .login{
   background-color: #F3AF2B;
-
-}
-
+  height: 100%;
+  }
+  .login div.logo-container{
+    padding-top: 100px;
+    padding-bottom: 40px;
+  }
+  .login div.textfield{
+    padding-bottom: 45px;
+  }
 
 </style>
