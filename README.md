@@ -1,26 +1,34 @@
-# common_tasks
-23卒の新人メンバーで取り組む、共通課題を管理するリポジトリ
+# dockerの使い方について
 
-## ルール
-* gitブランチについて
-    + ブランチ名は、`[backlogのチケット番号]-[アンスコ区切りで短めのタイトル(英語)]-[自分だとわかる名前]`
-        - 例：　`65-backend_develop-stawada`
-        - 例：　`60-make_API_document-stawada`
-* 基本的に`main`ブランチを直接操作しない
-    + ブランチを切って、それをmerge requestするか、自分でmainブランチに移動してmergeする
-* commitコメントを記載する
-    + コミットコメントは日本語でOK
-* pushするときは、不要なファイルを含めない
+## 1 githubから必要なファイルと一緒に下記ファイルをダウンロード
+* docker-compose.yml(common_tasks内)  
+* Dockerfile(backend内)  
+* Dockerfile(vue-test-project内)  
 
-## gitの初期環境構築
-1. `git clone git@github.com:stawada/common_tasks.git`
-2. `cd common_tasks`
-3. 以上
+## 2 dockerの起動
+アプリケーションをCUIでもGUIでもいいので立ち上げてください
 
-## gitブランチ操作方法
-* `git branch`
-    * 自分が操作できるブランチ名が見える
-* `git branch [ブランチ名]`
-    * [ブランチ名]で指定した名称でブランチが作成できる
-* `git switch [ブランチ名]`
-    * 今いるブランチから指定したブランチ名へ移動する
+## 3 イメージの作成
+docker-compose buildでイメージを作成してください
+
+## 4 コンテナの立ち上げ
+docker-compose up -dでコンテナを立ち上げてください
+
+### 4.5 DBの作成
+必要な場合はDBの内容を書き換えてください
+※デフォルトは空なので気をつけて
+
+docker-compose exec -it db bin/shでDBコンテナの中に入ります(GUIでも可能)
+psql -U postgresでDB内に入ることができます
+必要に応じてDBの内容を書き換えてください
+※exitでDB、コンテナ内から出ることができます
+
+## 5 ローカルホストに接続
+localhost:3000でアプリに入ることが出来ます
+
+## ex サーバーを落とす
+docker-compose stopでコンテナを止め、サーバーを落とすことが出来ます
+
+その他、不明点はお調べください
+
+
