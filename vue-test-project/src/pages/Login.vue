@@ -26,7 +26,7 @@ export default {
 
 
       async onclick(){
-        alert("click");
+        //alert("click");
         //console.log("親コンポーネント id: " + this.student_id + " pw: " +  await this.sha256(this.password));
         this.postJson()
       },
@@ -37,8 +37,14 @@ export default {
         "hashed_password": await this.sha256(this.password),
       })
       .then(
-        response => console.log(response),
-        this.$router.push('/attendance_check')
+        // response => console.log(response),
+        // map ReturnLoginInfo =
+        // if (this.response.matchflag == 1) {
+        //   alert("true");
+        // }else{
+        //   alert("false");
+        // }
+        // this.matchFlag(),
       ).catch(error => console.log(error))
       },
 
@@ -51,6 +57,13 @@ export default {
         return hashHex;
       },
 
+      matchFlag(){
+        if (this.response.matchflag == 1) {
+          alert("true");
+        }else{
+          alert("false");
+        }
+      },
 
     data() {
       return {

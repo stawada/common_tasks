@@ -1,50 +1,105 @@
-<!--
-<template>
-    <div class="dropdown" style="width:100%; display:flex; justify-content: center; align-items: center;">
-        <div>
-            <select>
-            <option value="math">数学</option>
-            <option value="japanese">国語</option>
-            <option value="english">英語</option>
-        </select>
-        </div>
-        <div>
-            <select>
-            <option value="option1">7/20 11:00</option>
-            <option value="option2">7/20 14:20</option>
-            <option value="option3">7/22 13:30</option>
-        </select>
-        </div>
-    </div>
-</template>
--->
-
 <template>
     <div class="dropdown-container">
         <div class="headline_container">
-            <label class="headline">講義を選択してください</label>
+            <label class="headline">講義選択をしてください</label>
         </div>
         <div class="dropdown">
-            <select>
-                <option value=""></option>
-                <option value="math">数学</option>
-                <option value="japanese">国語</option>
-                <option value="english">英語</option>
-            </select>
-        </div>
+        <select v-model="selectSubject" @change="bothFanction">
+            <option value=""></option>
+            <option v-for="subject_name in subjectName" :key="subject_name" >{{ subject_name }}</option>
+        </select>
         <div class="headline_container">
-            <label class="headline">日付を選択してください</label> 
+            <label class="headline">日付をしてください</label>
         </div>
         <div class="dropdown">
-            <select>
-                <option value=""></option>
-                <option value="option1">7/20 11:00</option>
-                <option value="option2">7/20 14:20</option>
-                <option value="option3">7/22 13:30</option>
-            </select>
+        <select v-model="lectureDateAndTime" @change="onEmit">
+            <option value=""></option>
+            <option v-for="subject_time in dateTime" :key="subject_time" >{{ subject_time }}</option>
+        </select>
         </div>
     </div>
 </template>
+
+<script>
+
+export default {
+    props:{
+        subjectName: {
+            type: Array,
+            default (){
+                return []
+            }
+        },
+        subjectTime: {
+            type: Array,
+            default (){
+                return []
+            }
+        },
+        responseJSON: {
+            type: Array,
+            default (){
+                return []
+            }
+        },
+    },
+
+    data (){
+        return {
+            selectSubject:'',
+            lecture_date_and_time:'',
+            key:'',
+            dateTime:[],
+            subTimeKey:[],
+            subTimeValues:[],
+            date:[],
+            dic:{},
+        }
+    },
+
+
+    methods: {
+        bothFanction(){
+            this.onEmit(),
+            this.arrayKey()
+        },
+
+        onEmit(){
+            this.$emit("onChange",this.selectSubject,this.lectureDateAndTime,this.dic)
+        },
+
+        arrayKey(){
+            this.dateTime = []
+            this.date = []
+            this.key = this.selectSubject;
+            this.subTimeKey = Object.keys(this.subjectTime)
+            this.subTimeValues = Object.values(this.subjectTime)
+
+            for(let i=0; i<this.subjectName.length; i++){
+                if(this.key == this.subTimeKey[i]){
+                    this.date.push(this.subTimeValues[i])
+                }
+            }
+            this.date[0].sort();
+            for(let i=0; i<this.date[0].length; i++){
+                var newDate = this.date[0][i]
+                this.dateTime.push(new Date(newDate*1000).toLocaleString())
+            }
+
+            //科目名と科目時間から一意に定まる辞書型配列
+            for(let i=0;i<this.subTimeKey.length;i++){
+                this.dic[this.subTimeKey[i]] = {};
+            }
+            for(let i=0;i<this.responseJSON.data.length;i++){
+                var subjectname = this.responseJSON.data[i].subject_name;
+                var subjectid = this.responseJSON.data[i].subject_id;
+                var subjecttime = this.responseJSON.data[i].subject_time;
+                this.dic[subjectname][subjecttime] = subjectid;
+            }
+        }
+    }
+}
+</script>
 
 <style>
 select{
