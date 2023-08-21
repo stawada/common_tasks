@@ -10,3 +10,5 @@ WORKDIR /front_app
 COPY . /front_app
 
 RUN npm install
+
+CMD ["npm", "run", "dev"]
