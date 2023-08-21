@@ -37,7 +37,7 @@ export default {
 
 
       async onclick(){
-        //alert("click");
+        // alert("click");
         //console.log("親コンポーネント id: " + this.student_id + " pw: " +  await this.sha256(this.password));
         this.postJson()
       },
