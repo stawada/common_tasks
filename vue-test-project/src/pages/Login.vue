@@ -12,7 +12,18 @@ import TextField from '../components/TextField.vue'
 import LoginButton from '../components/LoginButton.vue'
 import axios from 'axios'
 
+axios.defaults.withCredentials = true;
+
 export default {
+    async created() {
+      axios.get('http://localhost:8080/readCookie')
+      .then(
+        response => { console.log(response)
+          if (response.data.match_flag==1){
+        this.$router.push('/Attend')}
+      })
+    },
+
     components: {
         TextField,
         LoginButton
@@ -27,7 +38,7 @@ export default {
 
 
       async onclick(){
-        alert("click");
+        // alert("click");
         //console.log("親コンポーネント id: " + this.student_id + " pw: " +  await this.sha256(this.password));
         this.postJson()
       },
@@ -38,9 +49,15 @@ export default {
         "hashed_password": await this.sha256(this.password),
       })
       .then(
-        response => console.log(response),
-        this.$router.push('/attendance_check')
-      ).catch(error => console.log(error))
+        response => {if (response.data.match_flag==1){
+        this.$router.push('/Attend')
+        axios.post('http://localhost:8080/setCookie', {
+          "student_id": this.student_id,
+        })}
+      else {
+          alert("学生ID または パスワードが違います");
+        }
+      }).catch(error => console.log(error))
       },
 
       async sha256(message) {
