@@ -127,7 +127,9 @@ export default {
                 if(object.http_status < 400){
                     if(object.check_flag>0){
                         setTimeout(() => {this.$router.push('/attendance_check')}, 500);
-                    }else if(object.http_status == 400){
+                    }
+                }else{
+                    if(object.http_status == 400){
                         alert("BadRequest")
                         this.$router.go(0)
                     }else if(object.http_status == 401){
@@ -152,9 +154,6 @@ export default {
                         alert("Unknown Error")
                         this.$router.go(0)
                     }
-                }else{
-                    alert("ネットワークエラーが発生しました。")
-                    this.$router.go(0)
                 }
             }).catch(
                 error=>{
