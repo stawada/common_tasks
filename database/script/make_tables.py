@@ -58,16 +58,18 @@ def make_atnd_info_table(pairs, hist_elms, take_n, subject_n):
     lect_hist_idAry = [i for i,_,_ in hist_elms] # lecture_history_idのみのlist
     total_subject = len(hist_elms) // subject_n # 全講義の数
     res = []
+    atnd_info_id = 0
     for i in range(len(pairs)):
         rndm_lect_hist_idAry = random.sample([j+1 for j in range(total_subject)], k=take_n) # 一人当たりが履修する講義をサンプリング
         for j in range(take_n):
-            atnd_info_id = str(i*take_n + j + 1).zfill(10)
+            # atnd_info_id = str(i*take_n + j + 1).zfill(10)
             student_id = pairs[i][0]
             atnd_flag = 0 # 初期値0
             lect_hist_id = rndm_lect_hist_idAry[j] * subject_n
-            for _ in range(subject_n):
+            for k in range(subject_n):
                 lect_hist_id += 1
-                res.append([atnd_info_id, student_id, str(lect_hist_id).zfill(10), atnd_flag])
+                atnd_info_id += 1
+                res.append([str(atnd_info_id).zfill(10), student_id, str(lect_hist_id).zfill(10), atnd_flag])
 
     return res
 
