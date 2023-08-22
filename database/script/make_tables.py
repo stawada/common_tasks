@@ -54,17 +54,20 @@ def make_lect_hist_table(subject_df, subject_n, ctlg_elms):
 
     return res
 
-def make_atnd_info_table(pairs, hist_elms, take_n):
+def make_atnd_info_table(pairs, hist_elms, take_n, subject_n):
     lect_hist_idAry = [i for i,_,_ in hist_elms] # lecture_history_idのみのlist
+    total_subject = len(hist_elms) // subject_n # 全講義の数
     res = []
     for i in range(len(pairs)):
-        rndm_lect_hist_idAry = random.sample(lect_hist_idAry, k=take_n) # 一人当たりが履修する講義をサンプリング
+        rndm_lect_hist_idAry = random.sample([j+1 for j in range(total_subject)], k=take_n) # 一人当たりが履修する講義をサンプリング
         for j in range(take_n):
             atnd_info_id = str(i*take_n + j + 1).zfill(10)
             student_id = pairs[i][0]
-            lect_hist_id = rndm_lect_hist_idAry[j]
             atnd_flag = 0 # 初期値0
-            res.append([atnd_info_id, student_id, lect_hist_id, atnd_flag])
+            lect_hist_id = rndm_lect_hist_idAry[j] * subject_n
+            for _ in range(subject_n):
+                lect_hist_id += 1
+                res.append([atnd_info_id, student_id, str(lect_hist_id).zfill(10), atnd_flag])
 
     return res
 
@@ -123,7 +126,7 @@ def main(data_path, subject_n, take_n, column_nameDict, type_nameDict, output_pa
     bar.update(1)
     hist_elms = make_lect_hist_table(subject_df, subject_n, ctlg_elms)
     bar.update(1)
-    atnd_elms = make_atnd_info_table(pairs, hist_elms, take_n)
+    atnd_elms = make_atnd_info_table(pairs, hist_elms, take_n, subject_n)
     bar.update(1)
     resDict = {"student": student_elms,
                "lecture_catalog": ctlg_elms,
