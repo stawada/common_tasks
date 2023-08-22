@@ -14,7 +14,7 @@ var db *sql.DB
 
 func init() {
 	var err error
-	db, err = sql.Open("postgres", "host=localhost user=stawada dbname=sample sslmode=disable")
+	db, err = sql.Open("postgres", "host=db user=postgres password=Pasona123 sslmode=disable")
 	if err != nil {
 		panic("Not found Database.")
 	}
