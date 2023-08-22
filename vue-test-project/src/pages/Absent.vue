@@ -4,6 +4,10 @@ import AbsButton from '../components/AbsButton.vue'
 import Header from '../components/common/Header.vue'
 import Footer from '../components/common/Footer.vue'
 import axios from 'axios'
+import { useUserStore } from '../stores/user'
+
+const user = useUserStore();
+const user_id = user.user_id;
 
 export default {
   components: {
@@ -47,7 +51,7 @@ export default {
                 {
                     attend_flag : -1,
                     now_time : 1691553600,      //!!!!!!!!!!nowTimeに修正
-                    student_id : "G000000000",  //!!!!!!!!!!user_id ←保持しているuser_idの表記方法が決まり次第修正
+                    student_id : user_id,
                     subject_id : this.ans
                 }
             ).then( response => {

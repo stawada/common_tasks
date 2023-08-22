@@ -34,7 +34,7 @@ import axios from 'axios'
 
 import { useUserStore } from '../stores/user'
 const user = useUserStore();
-const user_id = user.getUserId;
+const user_id = user.user_id;
 
 export default {
     data (){
@@ -49,12 +49,10 @@ export default {
     mounted() {
         console.log('reload API 実行')
         const nowTime = Math.floor((new Date()).getTime() / 1000)
-        // console.log("현재시간 타임스탬프 : "+ nowTime)
-        console.log("user_id : " + user_id)
 
         // ページロード時、実行されるmethod
         // 学生id、現在時間をPOSTで送り、subject_name, subject_id, http_statusをもらう
-        axios.post(this.BASE_URL+"reload", { "student_id":"G000000000", "now_time":1691553600}) //!!!!!!!!!!!!!!!!!テスト
+        axios.post(this.BASE_URL+"reload", { "student_id":user_id, "now_time":1691564400}) //!!!!!!!!!!!!!!!!!テスト(nowTimeに変える)
         .then(response=> {
             const object = response.data[0]
             console.log(response)
@@ -95,11 +93,9 @@ export default {
                 this.can_attend = false
                 this.button_clicked = true
 
-                console.log(error.response)
-                const status = error.response.status
-                const message = error.response.data.message
-                alert(status + "ERROR : " + message)
-            }    
+                console.log(error)
+                alert(error.message)
+            }
         )
 
     },
@@ -117,8 +113,8 @@ export default {
                 this.BASE_URL + 'attend',
                 {
                     attend_flag : 1,
-                    now_time : 1699999900,      //!!!!!!!!!!nowTime
-                    student_id : "G000000000",  //!!!!!!!!!!user_id
+                    now_time : 1691564400,      //!!!!!!!!!!nowTime
+                    student_id : user_id,
                     subject_id : this.subject_id
                 }
             ).then( response => {

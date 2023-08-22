@@ -40,16 +40,19 @@ const router = new createRouter({
 })
     //!!!!!!!!!!!!!!test後コメント外す
     //ログインしていないユーザがログイン外のページに移動する場合、ログインページに遷移する
-    // router.beforeEach((to) => {
-    //   const user = useUserStore();
-    //   if(to.name != "login" && !user.isLoggedIn){
-    //     alert("ログインしてください。")
-    //     return "/"
-    //   //ログインしているユーザがログインページに移動する場合、出席登録ページに遷移する
-    //   }else if(to.name == 'login' && user.isLoggedIn){
-    //     alert("既にログイン情報があります。")
-    //     return "/attend"
-    //   }
-    // })
+    router.beforeEach((to,from) => {
+      const user = useUserStore();
+      console.log("login_status :"+user.isLoggedIn) //!!!!!!!!!!!
+
+        if(to.name != "login" && !user.isLoggedIn){
+          console.log("isLoggedIn: " + user.isLoggedIn)
+          alert("ログインしてください。")
+          return "/"
+        //ログインしているユーザがログインページに移動する場合、出席登録ページに遷移する
+        }else if(to.name == 'login' && user.isLoggedIn){
+          console.log("isLoggedIn: " + user.isLoggedIn)
+          return "/attend"
+        }
+    })
     
     export default router
