@@ -14,7 +14,7 @@ var db *sql.DB
 
 func init() {
 	var err error
-	db, err = sql.Open("postgres", "host=db user=postgres password=Pasona123 sslmode=disable")
+	db, err = sql.Open("postgres", "host=localhost user=stawada dbname=sample sslmode=disable")
 	if err != nil {
 		panic("Not found Database.")
 	}
@@ -77,7 +77,7 @@ func PostAttend(c echo.Context) error {
 
 	check_flag := 1 // 1->success, 0->denied
 	check_sentence := fmt.Sprintf(`SELECT lecture_catalog.lecture_name FROM lecture_catalog 
-						INNER JOIN lecture_history ON lecture_catalog.lecture_id=lecture_history.lecture_catalog_id 
+						INNER JOIN lecture_history ON lecture_catalog.lecture_catalog_id=lecture_history.lecture_catalog_id 
 						INNER JOIN attendance_information ON lecture_history.lecture_history_id=attendance_information.lecture_history_id 
 						WHERE lecture_history.lecture_date_and_time-600<=%d AND lecture_history.lecture_date_and_time+600>=%d AND attendance_information.student_id='%s';`, post.Now_time, post.Now_time, post.Student_id)
 
@@ -123,8 +123,8 @@ func PostReload(c echo.Context) error {
 	} else {
 		where_phase = fmt.Sprintf("WHERE lecture_history.lecture_date_and_time-600<=%d AND lecture_history.lecture_date_and_time+600>=%d AND attendance_information.student_id='%s';", post.Now_time, post.Now_time, post.Student_id)
 	}
-	extract_sentence := `SELECT lecture_catalog.lecture_name, lecture_catalog.lecture_id, lecture_history.lecture_date_and_time, attendance_information.attendance_flag FROM lecture_catalog 
-						INNER JOIN lecture_history ON lecture_catalog.lecture_id=lecture_history.lecture_catalog_id 
+	extract_sentence := `SELECT lecture_catalog.lecture_name, lecture_catalog.lecture_catalog_id, lecture_history.lecture_date_and_time, attendance_information.attendance_flag FROM lecture_catalog 
+						INNER JOIN lecture_history ON lecture_catalog.lecture_catalog_id=lecture_history.lecture_catalog_id 
 						INNER JOIN attendance_information ON lecture_history.lecture_history_id=attendance_information.lecture_history_id `
 	extract_sentence += where_phase
 
