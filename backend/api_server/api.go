@@ -14,7 +14,7 @@ var db *sql.DB
 
 func init() {
 	var err error
-	db, err = sql.Open("postgres", "host=db user=postgres password=Pasona123 sslmode=disable")
+	db, err = sql.Open("postgres", "host=localhost user=stawada dbname=sample sslmode=disable")
 	if err != nil {
 		panic("Not found Database.")
 	}
@@ -78,13 +78,19 @@ func PostAttend(c echo.Context) error {
 	check_flag := 1 // 1->success, 0->denied
 	check_sentence := fmt.Sprintf(`SELECT lecture_catalog.lecture_name FROM lecture_catalog 
 						INNER JOIN lecture_history ON lecture_catalog.lecture_catalog_id=lecture_history.lecture_catalog_id 
-						INNER JOIN attendance_information ON lecture_history.lecture_history_id=attendance_information.lecture_history_id 
-						WHERE lecture_history.lecture_date_and_time-600<=%d AND lecture_history.lecture_date_and_time+600>=%d AND attendance_information.student_id='%s';`, post.Now_time, post.Now_time, post.Student_id)
+						INNER JOIN attendance_information ON lecture_history.lecture_history_id=attendance_information.lecture_history_id `)
+	if post.Attend_flag == -1 {
+		check_sentence += fmt.Sprintf("WHERE attendance_information.student_id='%s';", post.Student_id)
+	} else {
+		check_sentence += fmt.Sprintf("WHERE lecture_history.lecture_date_and_time-600<=%d AND lecture_history.lecture_date_and_time+600>=%d AND attendance_information.student_id='%s';", post.Now_time, post.Now_time, post.Student_id)
+	}
 
 	var subject_name string
 	resJson := ReturnAttendInfo{}
+	fmt.Println(check_sentence)
 	if err := db.QueryRow(check_sentence).Scan(&subject_name); err != nil || subject_name == "" {
 		check_flag = 0 // エラー時はフラグを変更
+		fmt.Println(err)
 	} else {
 		update_sentence := fmt.Sprintf("UPDATE attendance_information SET attendance_flag=%d WHERE student_id='%s' AND lecture_history_id='%s';", post.Attend_flag, post.Student_id, post.Subject_id)
 		if _, err := db.Exec(update_sentence); err != nil {
