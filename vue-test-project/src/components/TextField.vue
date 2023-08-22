@@ -24,7 +24,7 @@ export default {
     methods: {
         onEmit()
         {
-        this.$emit("onChange", this.student_id, this.password)
+        this.$emit("appendVal", this.student_id, this.password)
         }
     }
 }
