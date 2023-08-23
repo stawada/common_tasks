@@ -35,8 +35,7 @@ import axios from 'axios'
 import { useUserStore } from '../stores/user'
 const user = useUserStore();
 const user_id = user.user_id;
-// const nowTime = Math.floor((new Date()).getTime() / 1000);
-const nowTime = 1693237809;
+const nowTime = Math.floor((new Date()).getTime() / 1000);
 
 export default {
     data (){
