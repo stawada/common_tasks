@@ -48,21 +48,19 @@ def make_lect_hist_table(subject_df, subject_n, ctlg_elms):
             idx = i*subject_n + j
             lect_hist_id = str(idx+1).zfill(10)
             lect_ctlg_id = ctlg_elms[idx][0]
-            lect_DAT = now_unix_time + 1200 # テストデータは20分刻みで用意する
+            lect_DAT = now_unix_time # テストデータは20分刻みで用意する
             now_unix_time += 1200
             res.append([lect_hist_id, lect_ctlg_id, lect_DAT])
 
     return res
 
 def make_atnd_info_table(pairs, hist_elms, take_n, subject_n):
-    lect_hist_idAry = [i for i,_,_ in hist_elms] # lecture_history_idのみのlist
     total_subject = len(hist_elms) // subject_n # 全講義の数
     res = []
     atnd_info_id = 0
     for i in range(len(pairs)):
         rndm_lect_hist_idAry = random.sample([j+1 for j in range(total_subject)], k=take_n) # 一人当たりが履修する講義をサンプリング
         for j in range(take_n):
-            # atnd_info_id = str(i*take_n + j + 1).zfill(10)
             student_id = pairs[i][0]
             atnd_flag = 0 # 初期値0
             lect_hist_id = rndm_lect_hist_idAry[j] * subject_n
