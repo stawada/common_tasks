@@ -48,20 +48,14 @@ const router = new createRouter({
           return "/attend"
         }
 
+        //確認ページに戻れなくする
         if( (user.can_back==false && to.name=="absent_check") || (user.can_back==false && to.name=="attendance_check") ){
           console.log("back block")
           return "/attend"
-        }
-
-        if(from.name == "absent_check" || from.name == "attendance_check"){
+        }else if(from.name == "absent_check" || from.name == "attendance_check"){
           user.can_back = false;
           console.log("can_back change to false");
         }
-        // else if(from.name != "absent" && to.name == "absent_check"){
-        //   return "/attend"
-        // }else if(from.name != "attend" && to.name == "attendance_check"){
-        //   return "/attend"
-        // }
     })
     
     export default router
