@@ -50,7 +50,7 @@ export default {
                 this.BASE_URL + 'attend',
                 {
                     attend_flag : -1,
-                    now_time : 1691553600,      //!!!!!!!!!!nowTimeに修正
+                    now_time : nowTime,
                     student_id : user_id,
                     subject_id : this.ans
                 }

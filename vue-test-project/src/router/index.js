@@ -29,20 +29,13 @@ const router = new createRouter({
       path: '/attendance_check',
       name: 'attendance_check',
       component: () => import('../pages/AttendanceCheck.vue')
-    },
-    // 後で消す!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    {
-      path: '/logout',
-      name: 'logout',
-      component: () => import('../pages/Logout.vue')
     }
   ]
 })
-    //!!!!!!!!!!!!!!test後コメント外す
+
     //ログインしていないユーザがログイン外のページに移動する場合、ログインページに遷移する
     router.beforeEach((to,from) => {
       const user = useUserStore();
-      console.log("login_status :"+user.isLoggedIn) //!!!!!!!!!!!
 
         if(to.name != "login" && !user.isLoggedIn){
           console.log("isLoggedIn: " + user.isLoggedIn)
