@@ -35,6 +35,8 @@ import axios from 'axios'
 import { useUserStore } from '../stores/user'
 const user = useUserStore();
 const user_id = user.user_id;
+// const nowTime = Math.floor((new Date()).getTime() / 1000);
+const nowTime = 1693237809;
 
 export default {
     data (){
@@ -48,11 +50,10 @@ export default {
     },
     mounted() {
         console.log('reload API 実行')
-        const nowTime = Math.floor((new Date()).getTime() / 1000)
 
         // ページロード時、実行されるmethod
         // 学生id、現在時間をPOSTで送り、subject_name, subject_id, http_statusをもらう
-        axios.post(this.BASE_URL+"reload", { "student_id":user_id, "now_time":1691564400}) //!!!!!!!!!!!!!!!!!テスト(nowTimeに変える)
+        axios.post(this.BASE_URL+"reload", { "student_id":user_id, "now_time":nowTime})
         .then(response=> {
             const object = response.data[0]
             console.log(response)
@@ -107,13 +108,12 @@ export default {
         //出席ボタンを押した時、出席登録を行うイベント
         onclick(){
             this.button_clicked = true;
-            const nowTime = Math.floor((new Date()).getTime() / 1000)
 
             axios.post(
                 this.BASE_URL + 'attend',
                 {
                     attend_flag : 1,
-                    now_time : 1691564400,      //!!!!!!!!!!nowTime
+                    now_time : nowTime,     
                     student_id : user_id,
                     subject_id : this.subject_id
                 }
@@ -123,6 +123,8 @@ export default {
                 if(object.http_status < 400){
                     if(object.check_flag>0){
                         setTimeout(() => {this.$router.push('/attendance_check')}, 500);
+                    }else{
+                        alert("出席登録できませんでした。再度お試しください。")
                     }
                 }else{
                     if(object.http_status == 400){
