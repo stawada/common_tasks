@@ -5,7 +5,8 @@ axios.defaults.withCredentials = true;
 
 export const useUserStore = defineStore("user", {
   state: () => ({
-    user_id: null
+    user_id: null,
+    can_back: false
   }),
   getters: {
     //Cookieからユーザーidを読み込み、情報があったらuser_idに保存してからtrueを、なかったらfalseを返還

@@ -121,6 +121,7 @@ export default {
                 const object = response.data
                 if(object.http_status < 400){
                     if(object.check_flag>0){
+                        user.can_back = true;
                         setTimeout(() => {this.$router.push('/attendance_check')}, 500);
                     }else{
                         alert("出席登録できませんでした。再度お試しください。")

@@ -33,19 +33,35 @@ const router = new createRouter({
   ]
 })
 
-    //ログインしていないユーザがログイン外のページに移動する場合、ログインページに遷移する
     router.beforeEach((to,from) => {
-      const user = useUserStore();
-
+        const user = useUserStore();
+        console.log("canclick" + user.can_back)
+  
+        //ログインしていないユーザがログイン外のページに移動する場合、ログインページに遷移する
         if(to.name != "login" && !user.isLoggedIn){
-          console.log("isLoggedIn: " + user.isLoggedIn)
+          console.log("isLoggedIn: " + user.isLoggedIn) //!!!!!!!!!!!!
           alert("ログインしてください。")
           return "/"
         //ログインしているユーザがログインページに移動する場合、出席登録ページに遷移する
         }else if(to.name == 'login' && user.isLoggedIn){
-          console.log("isLoggedIn: " + user.isLoggedIn)
+          console.log("isLoggedIn: " + user.isLoggedIn) //!!!!!!!!!!!
           return "/attend"
         }
+
+        if( (user.can_back==false && to.name=="absent_check") || (user.can_back==false && to.name=="attendance_check") ){
+          console.log("back block")
+          return "/attend"
+        }
+
+        if(from.name == "absent_check" || from.name == "attendance_check"){
+          user.can_back = false;
+          console.log("can_back change to false");
+        }
+        // else if(from.name != "absent" && to.name == "absent_check"){
+        //   return "/attend"
+        // }else if(from.name != "attend" && to.name == "attendance_check"){
+        //   return "/attend"
+        // }
     })
     
     export default router

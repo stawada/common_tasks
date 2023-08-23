@@ -59,7 +59,8 @@ export default {
                 const object = response.data
                 if(object.http_status < 400){
                   if(object.check_flag>0){
-                      this.button_clicked = true
+                      this.button_clicked = true;
+                      user.can_back = true;
                       setTimeout(() => {this.$router.push('/absent_check')}, 500);
                 }else{
                   if(object.http_status == 400){
@@ -101,8 +102,7 @@ export default {
     created(){
       axios.post(this.BASE_URL + 'reload'
             ,{
-                student_id: 'G000000000',
-                //now_time : nowTime //AttendのnowTimeを引っ張ってくる
+                student_id: user_id
             }
             ).then(
               response => {
