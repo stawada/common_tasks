@@ -29,10 +29,9 @@ export default {
             ans:'',
             dic:{},
             responseJSON:{},
-            button_clicked : false,
+            button_clicked : true,
             subjectName :[],
             subjectTime :{}
-            
         }
     },
     methods: {
@@ -41,11 +40,16 @@ export default {
           this.dateTime = lectureDateAndTime,
           this.dic = dic,
           this.dateUTC = (new Date(this.dateTime).getTime())/1000
+          console.log(this.dateTime)
+          if(this.dateTime != ''){
+            this.button_clicked = false
+          }
         },
 
         onClick(){ //欠席ボタン押下時の処理
           this.ans = this.dic[this.subject][this.dateUTC]
             this.button_clicked = true;
+            console.log(this.ans)
             if(this.ans == undefined){
               alert("入力内容が不正です。もう一度やり直して下さい。")
               this.$router.go(0)
