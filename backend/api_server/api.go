@@ -87,7 +87,7 @@ func PostAttend(c echo.Context) error {
 	var subject_name string
 	resJson := ReturnAttendInfo{}
 	if err := db.QueryRow(check_sentence).Scan(&subject_name); err != nil || subject_name == "" {
-		check_flag = 1 // エラー時はフラグを変更
+		check_flag = 0 // エラー時はフラグを変更
 	} else {
 			update_sentence := fmt.Sprintf(`UPDATE attendance_information AS atnd 
 											SET attendance_flag=%d 
