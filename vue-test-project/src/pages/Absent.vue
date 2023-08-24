@@ -8,7 +8,6 @@ import { useUserStore } from '../stores/user'
 
 const user = useUserStore();
 const user_id = user.user_id;
-const nowTime = Math.floor((new Date()).getTime() / 1000);
 
 export default {
   components: {
@@ -47,6 +46,7 @@ export default {
         },
 
         onClick(){ //欠席ボタン押下時の処理
+            const attendNowTime = Math.floor((new Date()).getTime() / 1000);
             this.ans = this.dic[this.subject][this.dateUTC]
             this.button_clicked = true;
             // console.log(this.ans)
@@ -59,7 +59,7 @@ export default {
                   this.BASE_URL + 'attend',
                   {
                       attend_flag : -1,
-                      now_time : nowTime,
+                      now_time : attendNowTime,
                       student_id : user_id,
                       subject_id : this.ans
                   }
@@ -96,10 +96,11 @@ export default {
         }
     },
     created(){
+      const reloadNowTime = Math.floor((new Date()).getTime() / 1000);
       axios.post(this.BASE_URL + 'reload'
             ,{
                 student_id: user_id,
-                now_time : nowTime,
+                now_time : reloadNowTime,
                 attend_flag: -1
             }
             ).then(
