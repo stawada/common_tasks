@@ -47,8 +47,6 @@ export default {
         }
     },
     mounted() {
-        console.log('reload API 実行')
-
         // ページロード時、実行されるmethod
         // 学生id、現在時間をPOSTで送り、subject_name, subject_id, http_statusをもらう
         const reloadNowTime = Math.floor((new Date()).getTime() / 1000);
@@ -65,23 +63,16 @@ export default {
                 }else{
                     this.can_attend = false
                     this.button_clicked = true
-                    if(object.http_status == 400){
-                        alert("BadRequest")
-                    }else if(object.http_status == 401){
-                        alert("Unauthorized")
-                    }else if(object.http_status == 404){
-                        alert("Not found")
-                    }else if(object.http_status == 412){
-                        alert("Precondition Failed")
-                    }else if(object.http_status == 429){
-                        alert("To Many Requests")
-                    }else if(object.http_status == 503){
-                        alert("Service Unavailable")
-                    }else if(object.http_status == 504){
-                        alert("Gateway Timeout")
-                    }else{
-                        alert("Unknown Error")
-                    }
+                    switch(object.http_status){
+                    case 400: alert("BadRequest");  this.$router.go(0); break;
+                    case 401: alert("Unauthorized");  this.$router.go(0); break;
+                    case 404: alert("Not found");  this.$router.go(0); break;
+                    case 412: alert("Precondition Failed");  this.$router.go(0); break;
+                    case 429: alert("To Many Requests");  this.$router.go(0); break;
+                    case 503: alert("Service Unavailable");  this.$router.go(0); break;
+                    case 504: alert("Gateway Timeout");  this.$router.go(0); break;
+                    default: alert("Unknown Error"); this.$router.go(0); break;
+                  }
                 }
             }else{
                 this.can_attend = false
@@ -127,41 +118,22 @@ export default {
                         alert("出席登録できませんでした。再度お試しください。")
                     }
                 }else{
-                    if(object.http_status == 400){
-                        alert("BadRequest")
-                        this.$router.go(0)
-                    }else if(object.http_status == 401){
-                        alert("Unauthorized")
-                        this.$router.go(0)
-                    }else if(object.http_status == 404){
-                        alert("Not found")
-                        this.$router.go(0)
-                    }else if(object.http_status == 412){
-                        alert("Precondition Failed")
-                        this.$router.go(0)
-                    }else if(object.http_status == 429){
-                        alert("To Many Requests")
-                        this.$router.go(0)
-                    }else if(object.http_status == 503){
-                        alert("Service Unavailable")
-                        this.$router.go(0)
-                    }else if(object.http_status == 504){
-                        alert("Gateway Timeout")
-                        this.$router.go(0)
-                    }else{
-                        alert("Unknown Error")
-                        this.$router.go(0)
-                    }
+                    switch(object.http_status){
+                    case 400: alert("BadRequest");  this.$router.go(0); break;
+                    case 401: alert("Unauthorized");  this.$router.go(0); break;
+                    case 404: alert("Not found");  this.$router.go(0); break;
+                    case 412: alert("Precondition Failed");  this.$router.go(0); break;
+                    case 429: alert("To Many Requests");  this.$router.go(0); break;
+                    case 503: alert("Service Unavailable");  this.$router.go(0); break;
+                    case 504: alert("Gateway Timeout");  this.$router.go(0); break;
+                    default: alert("Unknown Error"); this.$router.go(0); break;
+                  }
                 }
-            }).catch(
-                error=>{
+            }).catch( error=>{
                     this.can_attend = false
                     this.button_clicked = true
-
                     console.log(error.response)
-                    const status = error.response.status
-                    const message = error.response.data.message
-                    alert(status + "ERROR : " + message)
+                    alert(error.message)
                 })
         }
     }

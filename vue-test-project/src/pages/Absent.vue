@@ -47,9 +47,10 @@ export default {
         },
 
         onClick(){ //欠席ボタン押下時の処理
-          this.ans = this.dic[this.subject][this.dateUTC]
+            this.ans = this.dic[this.subject][this.dateUTC]
             this.button_clicked = true;
-            console.log(this.ans)
+            // console.log(this.ans)
+
             if(this.ans == undefined){
               alert("入力内容が不正です。もう一度やり直して下さい。")
               this.$router.go(0)
@@ -70,34 +71,21 @@ export default {
                         this.button_clicked = true;
                         user.can_back = true;
                         setTimeout(() => {this.$router.push('/absent_check')}, 500);
+                    }else{
+                      alert("欠席登録できませんでした。もう一度やり直してください。")
                     }
                   }else{
-                    if(object.http_status == 400){
-                        alert("BadRequest")
-                        this.$router.go(0)
-                    }else if(object.http_status == 401){
-                        alert("Unauthorized")
-                        this.$router.go(0)
-                    }else if(object.http_status == 404){
-                        alert("Not found")
-                        this.$router.go(0)
-                    }else if(object.http_status == 412){
-                        alert("Precondition Failed")
-                        this.$router.go(0)
-                    }else if(object.http_status == 429){
-                        alert("To Many Requests")
-                        this.$router.go(0)
-                    }else if(object.http_status == 503){
-                        alert("Service Unavailable")
-                        this.$router.go(0)
-                    }else if(object.http_status == 504){
-                        alert("Gateway Timeout")
-                        this.$router.go(0)
-                    }else{
-                        alert("Unknown Error")
-                        this.$router.go(0)
-                    }
+                  switch(object.http_status){
+                    case 400: alert("BadRequest");  this.$router.go(0); break;
+                    case 401: alert("Unauthorized");  this.$router.go(0); break;
+                    case 404: alert("Not found");  this.$router.go(0); break;
+                    case 412: alert("Precondition Failed");  this.$router.go(0); break;
+                    case 429: alert("To Many Requests");  this.$router.go(0); break;
+                    case 503: alert("Service Unavailable");  this.$router.go(0); break;
+                    case 504: alert("Gateway Timeout");  this.$router.go(0); break;
+                    default: alert("Unknown Error"); this.$router.go(0); break;
                   }
+                }
               }).catch(
                   error=>{
                       this.button_clicked = true
@@ -107,7 +95,6 @@ export default {
             }
         }
     },
-
     created(){
       axios.post(this.BASE_URL + 'reload'
             ,{
@@ -119,52 +106,44 @@ export default {
               response => {
                 console.log(response)
                 const object = response.data
-                // if(object[0].http_status < 400){  //以下エラー文は後日修正？(ミランと要相談)
-                  this.responseJSON = response
-                var set = new Set();
-                for(let i=0; i<response.data.length; i++){
-                  set.add(response.data[i].subject_name)
+                let http_status = 0;
+                if(response.data.length<1){
+                  http_status = response.data.http_status
+                }else{
+                  http_status = response.data[0].http_status;
                 }
-                this.subjectName = Array.from(set);
 
-                for(let i=0; i<response.data.length; i++){
-                  this.subjectTime[this.subjectName[i]] = []
+                if( http_status < 400 ){
+                  this.responseJSON = response
+                  var set = new Set();
+                  for(let i=0; i<response.data.length; i++){
+                    set.add(response.data[i].subject_name)
+                  }
+                  this.subjectName = Array.from(set);
+
+                  for(let i=0; i<response.data.length; i++){
+                    this.subjectTime[this.subjectName[i]] = []
+                  }
+                  for(let i=0; i<response.data.length; i++){
+                    this.subjectTime[response.data[i].subject_name].push(response.data[i].subject_time)
+                  }
+                }else {
+                  switch(http_status){
+                    case 400: alert("BadRequest");  this.$router.go(0); break;
+                    case 401: alert("Unauthorized");  this.$router.go(0); break;
+                    case 404: alert("Not found");  this.$router.go(0); break;
+                    case 412: alert("Precondition Failed");  this.$router.go(0); break;
+                    case 429: alert("To Many Requests");  this.$router.go(0); break;
+                    case 503: alert("Service Unavailable");  this.$router.go(0); break;
+                    case 504: alert("Gateway Timeout");  this.$router.go(0); break;
+                    default: alert("Unknown Error"); this.$router.go(0); break;
+                  }
                 }
-                for(let i=0; i<response.data.length; i++){
-                  this.subjectTime[response.data[i].subject_name].push(response.data[i].subject_time)
-                }
-                // }else{
-                //   if(object[0].http_status == 400){
-                //       alert("BadRequest")
-                //       this.$router.go(0)
-                //   }else if(object[0].http_status == 401){
-                //       alert("Unauthorized")
-                //       this.$router.go(0)
-                //   }else if(object[0].http_status == 404){
-                //       alert("Not found")
-                //       this.$router.go(0)
-                //   }else if(object[0].http_status == 412){
-                //       alert("Precondition Failed")
-                //       this.$router.go(0)
-                //   }else if(object[0].http_status == 429){
-                //       alert("To Many Requests")
-                //       this.$router.go(0)
-                //   }else if(object[0].http_status == 503){
-                //       alert("Service Unavailable")
-                //       this.$router.go(0)
-                //   }else if(object[0].http_status == 504){
-                //       alert("Gateway Timeout")
-                //       this.$router.go(0)
-                //   }else{
-                //       alert("Unknown Error")
-                //       this.$router.go(0)
-                //   }
-                // }
-              }
-            ).catch(error=>{
+              }).catch(error=>{
                     this.button_clicked = true
                     console.log(error)
-                    alert(error.message)})
+                    alert(error.message)
+              })
     }
 };
 </script>
