@@ -59,7 +59,7 @@ def make_atnd_info_table(pairs, hist_elms, take_n, subject_n):
     res = []
     atnd_info_id = 0
     for i in range(len(pairs)):
-        rndm_lect_hist_idAry = random.sample([j+1 for j in range(total_subject)], k=take_n) # 一人当たりが履修する講義をサンプリング
+        rndm_lect_hist_idAry = random.sample([j for j in range(total_subject)], k=take_n) # 一人当たりが履修する講義をサンプリング
         for j in range(take_n):
             student_id = pairs[i][0]
             atnd_flag = 0 # 初期値0
@@ -151,7 +151,7 @@ TAKE_N = 10 # 一人あたりが履修する講義数
 COLUMN_DICT = {"student": ["student_id", "student_name", "hashed_password"],
                 "lecture_catalog": ["lecture_catalog_id", "lecture_name"],
                 "lecture_history": ["lecture_history_id", "lecture_catalog_id", "lecture_date_and_time"],
-                "attendance_information": ["attendance_information", "student_id", "lecture_history_id", "attendance_flag"]}
+                "attendance_information": ["attendance_information_id", "student_id", "lecture_history_id", "attendance_flag"]}
 # カラム名に対応する型
 TYPE_DICT = {"student_id": "char(10) PRIMARY KEY",
               "student_name": "varchar(30)",
@@ -160,7 +160,7 @@ TYPE_DICT = {"student_id": "char(10) PRIMARY KEY",
               "lecture_name": "varchar(20)",
               "lecture_history_id": "char(10) PRIMARY KEY",
               "lecture_date_and_time": "integer",
-              "attendance_information": "char(10) PRIMARY KEY",
+              "attendance_information_id": "char(10) PRIMARY KEY",
               "attendance_flag": "integer"}
 
 if __name__ == "__main__":
