@@ -81,13 +81,19 @@ func PostAttend(c echo.Context) error {
 	if post.Attend_flag == -1 {
 		check_sentence += fmt.Sprintf("WHERE attendance_information.student_id='%s';", post.Student_id)
 	} else {
-		check_sentence += fmt.Sprintf("WHERE lecture_history.lecture_date_and_time-600<=%d AND lecture_history.lecture_date_and_time+600>=%d AND attendance_information.student_id='%s';", post.Now_time, post.Now_time, post.Student_id)
+		check_sentence += fmt.Sprintf(`WHERE lecture_history.lecture_date_and_time-600<=%d 
+										AND lecture_history.lecture_date_and_time+600>=%d 
+										AND attendance_information.student_id='%s' 
+										AND lecture_catalog.lecture_catalog_id='%s';`, post.Now_time, post.Now_time, post.Student_id, post.Subject_id)
 	}
 
 	var subject_name string
+	fmt.Println(check_sentence)
 	resJson := ReturnAttendInfo{}
 	if err := db.QueryRow(check_sentence).Scan(&subject_name); err != nil || subject_name == "" {
 		check_flag = 0 // エラー時はフラグを変更
+		fmt.Println(err)
+		fmt.Println(subject_name)
 	} else {
 			update_sentence := fmt.Sprintf(`UPDATE attendance_information AS atnd 
 											SET attendance_flag=%d 
@@ -101,6 +107,7 @@ func PostAttend(c echo.Context) error {
 		}
 	}
 
+	fmt.Println(check_flag)
 	resJson.Check_flag = check_flag
 	resJson.Http_status = http.StatusCreated
 	return c.JSON(http.StatusCreated, resJson)
