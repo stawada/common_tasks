@@ -102,7 +102,9 @@ export default {
     created(){
       axios.post(this.BASE_URL + 'reload'
             ,{
-                student_id: user_id
+                student_id: user_id,
+                now_time : nowTime,
+                attend_flag: -1
             }
             ).then(
               response => {
