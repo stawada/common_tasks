@@ -41,7 +41,6 @@ func PostLogin(c echo.Context) error {
 	checkJson := ReceiveLoginInfo{}
 	resJson := ReturnLoginInfo{}
 	select_sentence := fmt.Sprintf("SELECT student_id, hashed_password FROM student where student_id='%s' and hashed_password='%s';", post.Student_id, post.Hashed_password)
-	fmt.Println(select_sentence)
 	if err := db.QueryRow(select_sentence).Scan(&checkJson.Student_id, &checkJson.Hashed_password); err != nil {
 		// 失敗時はフラグ=0
 		resJson.Match_flag = 0
@@ -87,7 +86,6 @@ func PostAttend(c echo.Context) error {
 
 	var subject_name string
 	resJson := ReturnAttendInfo{}
-	fmt.Println(check_sentence)
 	if err := db.QueryRow(check_sentence).Scan(&subject_name); err != nil || subject_name == "" {
 		check_flag = 1 // エラー時はフラグを変更
 	} else {
@@ -112,6 +110,7 @@ func PostAttend(c echo.Context) error {
 type ReceiveReload struct {
 	Student_id string `json:"student_id"`
 	Now_time   int    `json:"now_time"`
+	Attend_flag int `json:"attend_flag"`
 }
 
 type ReturnReload struct {
@@ -129,8 +128,8 @@ func PostReload(c echo.Context) error {
 	}
 
 	var where_phase string
-	if post.Now_time == 0 {
-		where_phase = fmt.Sprintf("WHERE attendance_information.student_id='%s';", post.Student_id)
+	if post.Attend_flag == -1 {
+		where_phase = fmt.Sprintf("WHERE attendance_information.student_id='%s' AND lecture_history.lecture_date_and_time>=%d;", post.Student_id, post.Now_time)
 	} else {
 		where_phase = fmt.Sprintf("WHERE lecture_history.lecture_date_and_time-600<=%d AND lecture_history.lecture_date_and_time+600>=%d AND attendance_information.student_id='%s';", post.Now_time, post.Now_time, post.Student_id)
 	}
