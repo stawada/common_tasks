@@ -8,6 +8,7 @@ import { useUserStore } from '../stores/user'
 
 const user = useUserStore();
 const user_id = user.user_id;
+const nowTime = Math.floor((new Date()).getTime() / 1000);
 
 export default {
   components: {
@@ -31,6 +32,7 @@ export default {
             button_clicked : false,
             subjectName :[],
             subjectTime :{}
+            
         }
     },
     methods: {
@@ -44,58 +46,61 @@ export default {
         onClick(){ //欠席ボタン押下時の処理
           this.ans = this.dic[this.subject][this.dateUTC]
             this.button_clicked = true;
-            const nowTime = Math.floor((new Date()).getTime() / 1000)
-
-            axios.post(
-                this.BASE_URL + 'attend',
-                {
-                    attend_flag : -1,
-                    now_time : nowTime,
-                    student_id : user_id,
-                    subject_id : this.ans
-                }
-            ).then( response => {
-                console.log(response)
-                const object = response.data
-                if(object.http_status < 400){
-                  if(object.check_flag>0){
-                      this.button_clicked = true;
-                      user.can_back = true;
-                      setTimeout(() => {this.$router.push('/absent_check')}, 500);
-                }else{
-                  if(object.http_status == 400){
-                      alert("BadRequest")
-                      this.$router.go(0)
-                  }else if(object.http_status == 401){
-                      alert("Unauthorized")
-                      this.$router.go(0)
-                  }else if(object.http_status == 404){
-                      alert("Not found")
-                      this.$router.go(0)
-                  }else if(object.http_status == 412){
-                      alert("Precondition Failed")
-                      this.$router.go(0)
-                  }else if(object.http_status == 429){
-                      alert("To Many Requests")
-                      this.$router.go(0)
-                  }else if(object.http_status == 503){
-                      alert("Service Unavailable")
-                      this.$router.go(0)
-                  }else if(object.http_status == 504){
-                      alert("Gateway Timeout")
-                      this.$router.go(0)
-                  }else{
-                      alert("Unknown Error")
-                      this.$router.go(0)
+            if(this.ans == undefined){
+              alert("入力内容が不正です。もう一度やり直して下さい。")
+              this.$router.go(0)
+            }else{
+              axios.post(
+                  this.BASE_URL + 'attend',
+                  {
+                      attend_flag : -1,
+                      now_time : nowTime,
+                      student_id : user_id,
+                      subject_id : this.ans
                   }
-                }
-              }
-            }).catch(
-                error=>{
-                    this.button_clicked = true
-                    console.log(error)
-                    alert(error.message)
-                })
+              ).then( response => {
+                  console.log(response)
+                  const object = response.data
+                  if(object.http_status < 400){
+                    if(object.check_flag>0){
+                        this.button_clicked = true;
+                        user.can_back = true;
+                        setTimeout(() => {this.$router.push('/absent_check')}, 500);
+                    }
+                  }else{
+                    if(object.http_status == 400){
+                        alert("BadRequest")
+                        this.$router.go(0)
+                    }else if(object.http_status == 401){
+                        alert("Unauthorized")
+                        this.$router.go(0)
+                    }else if(object.http_status == 404){
+                        alert("Not found")
+                        this.$router.go(0)
+                    }else if(object.http_status == 412){
+                        alert("Precondition Failed")
+                        this.$router.go(0)
+                    }else if(object.http_status == 429){
+                        alert("To Many Requests")
+                        this.$router.go(0)
+                    }else if(object.http_status == 503){
+                        alert("Service Unavailable")
+                        this.$router.go(0)
+                    }else if(object.http_status == 504){
+                        alert("Gateway Timeout")
+                        this.$router.go(0)
+                    }else{
+                        alert("Unknown Error")
+                        this.$router.go(0)
+                    }
+                  }
+              }).catch(
+                  error=>{
+                      this.button_clicked = true
+                      console.log(error)
+                      alert(error.message)
+                  })
+            }
         }
     },
 
