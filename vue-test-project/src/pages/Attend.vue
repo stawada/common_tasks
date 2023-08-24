@@ -3,7 +3,7 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
-    
+
     <Header :title='title'/>
     <div id="attend_content">
         <!-- 出席可能な講義がある場合講義名を、ない場合メッセージを表示 -->
@@ -35,7 +35,6 @@ import axios from 'axios'
 import { useUserStore } from '../stores/user'
 const user = useUserStore();
 const user_id = user.user_id;
-const nowTime = Math.floor((new Date()).getTime() / 1000);
 
 export default {
     data (){
@@ -52,11 +51,12 @@ export default {
 
         // ページロード時、実行されるmethod
         // 学生id、現在時間をPOSTで送り、subject_name, subject_id, http_statusをもらう
-        axios.post(this.BASE_URL+"reload", { "student_id":user_id, "now_time":nowTime})
+        const reloadNowTime = Math.floor((new Date()).getTime() / 1000);
+        axios.post(this.BASE_URL+"reload", { "student_id":user_id, "now_time":reloadNowTime})
         .then(response=> {
             const object = response.data[0]
             console.log(response)
-            
+
             if(object != null){
                 if(object.http_status < 400){
                     this.can_attend = true;
@@ -107,12 +107,12 @@ export default {
         //出席ボタンを押した時、出席登録を行うイベント
         onclick(){
             this.button_clicked = true;
-
+            const attendNowTime = Math.floor((new Date()).getTime() / 1000)
             axios.post(
                 this.BASE_URL + 'attend',
                 {
                     attend_flag : 1,
-                    now_time : nowTime,     
+                    now_time : attendNowTime,
                     student_id : user_id,
                     subject_id : this.subject_id
                 }
