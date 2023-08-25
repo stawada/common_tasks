@@ -64,15 +64,14 @@ export default {
                     this.can_attend = false
                     this.button_clicked = true
                     switch(object.http_status){
-                    case 400: alert("BadRequest");  this.$router.go(0); break;
-                    case 401: alert("Unauthorized");  this.$router.go(0); break;
-                    case 404: alert("Not found");  this.$router.go(0); break;
-                    case 412: alert("Precondition Failed");  this.$router.go(0); break;
-                    case 429: alert("To Many Requests");  this.$router.go(0); break;
-                    case 503: alert("Service Unavailable");  this.$router.go(0); break;
-                    case 504: alert("Gateway Timeout");  this.$router.go(0); break;
-                    default: alert("Unknown Error"); this.$router.go(0); break;
-                  }
+                        case 400: alert("URLに誤りがあります。URLを確かめた上でもう一度入り直してください。"); break;
+                        case 401: alert("閲覧権限がありません。URLを確かめた上でもう一度入り直してください。"); break;
+                        case 404: alert("該当するページが見つかりません。URLに誤りがないか確認してください。"); break;
+                        case 429: alert("サーバーへのアクセスが集中しています。少し時間を空けてください。"); break;
+                        case 503: alert("一時的にサービスが利用できません。少し時間を空けてください。"); break;
+                        case 504: alert("正しく処理が行われませんでした。もう一度お試しください。"); break;
+                        default: alert("エラーが発生しました。もう一度お試しください。"); break;
+                    }
                 }
             }else{
                 this.can_attend = false
@@ -85,7 +84,10 @@ export default {
                 this.button_clicked = true
 
                 console.log(error)
-                alert(error.message)
+                switch(error.code){
+                    case 'ERR_NETWORK': alert("サーバーに問題が発生しております。担当者にお問い合わせください。"); break;
+                    default: alert("エラーが発生しました。もう一度お試しください。"); break;
+                }
             }
         )
 
@@ -119,22 +121,24 @@ export default {
                     }
                 }else{
                     switch(object.http_status){
-                    case 400: alert("BadRequest");  this.$router.go(0); break;
-                    case 401: alert("Unauthorized");  this.$router.go(0); break;
-                    case 404: alert("Not found");  this.$router.go(0); break;
-                    case 412: alert("Precondition Failed");  this.$router.go(0); break;
-                    case 429: alert("To Many Requests");  this.$router.go(0); break;
-                    case 503: alert("Service Unavailable");  this.$router.go(0); break;
-                    case 504: alert("Gateway Timeout");  this.$router.go(0); break;
-                    default: alert("Unknown Error"); this.$router.go(0); break;
+                        case 400: alert("URLに誤りがあります。URLを確かめた上でもう一度入り直してください。");  this.$router.go(0); break;
+                        case 401: alert("閲覧権限がありません。URLを確かめた上でもう一度入り直してください。");  this.$router.go(0); break;
+                        case 404: alert("該当するページが見つかりません。URLに誤りがないか確認してください。");  this.$router.go(0); break;
+                        case 429: alert("サーバーへのアクセスが集中しています。少し時間を空けてください。");  this.$router.go(0); break;
+                        case 503: alert("一時的にサービスが利用できません。少し時間を空けてください。");  this.$router.go(0); break;
+                        case 504: alert("正しく処理が行われませんでした。もう一度お試しください。");  this.$router.go(0); break;
+                        default: alert("エラーが発生しました。もう一度お試しください。"); this.$router.go(0); break;
                   }
                 }
             }).catch( error=>{
-                    this.can_attend = false
-                    this.button_clicked = true
-                    console.log(error.response)
-                    alert(error.message)
-                })
+                this.can_attend = false
+                this.button_clicked = true
+                console.log(error)
+                switch(error.code){
+                    case 'ERR_NETWORK': alert("サーバーに問題が発生しております。担当者にお問い合わせください。"); this.$router.go(0); break;
+                    default: alert("エラーが発生しました。もう一度お試しください。"); this.$router.go(0); break;
+                }
+            })
         }
     }
 }
