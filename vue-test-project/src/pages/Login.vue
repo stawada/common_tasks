@@ -43,17 +43,23 @@ export default {
           if (response.data.match_flag==1){
             axios.post('http://localhost:8080/setCookie', {
             "student_id": this.student_id,
-            }).then(res => { 
+            }).then(res => {
                 console.log(res);
-                this.$router.go(0) 
-            }).error( err => console.log(err) )
+                this.$router.go(0)
+            }).catch( err => {console.log(err)} )
           }
           else {
             alert("学生ID または パスワードが違います");
           }
-          }).catch(error => console.log(error))
-            // this.$router.go(0)
-          },
+          }).catch(
+          error=>{
+                console.log(error)
+                switch(error.code){
+                    case 'ERR_NETWORK': alert("サーバーに問題が発生しております。担当者にお問い合わせください。"); this.$router.go(0); break; //reload apiにはrouter不要
+                    default: alert("エラーが発生しました。もう一度お試しください。"); this.$router.go(0); break;　//reload apiにはrouter不要
+                }
+            }
+          )},
 
       async sha256(message) {
         const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
